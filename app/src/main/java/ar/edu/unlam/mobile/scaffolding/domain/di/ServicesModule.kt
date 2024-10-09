@@ -1,6 +1,8 @@
 package ar.edu.unlam.mobile.scaffolding.domain.di
 
+import ar.edu.unlam.mobile.scaffolding.domain.services.CaptureUserPhotoService
 import ar.edu.unlam.mobile.scaffolding.domain.services.GameService
+import ar.edu.unlam.mobile.scaffolding.domain.usecases.CaptureUserPhotoUseCases
 import ar.edu.unlam.mobile.scaffolding.domain.usecases.GameUseCases
 import dagger.Binds
 import dagger.Module
@@ -12,4 +14,7 @@ import dagger.hilt.components.SingletonComponent
 abstract class ServicesModule {
     @Binds
     abstract fun bindGameService(gameService: GameService): GameUseCases
+
+    @Binds
+    abstract fun bingCaptureUserPhotoService(captureUserPhotoService: CaptureUserPhotoService): CaptureUserPhotoUseCases
 }

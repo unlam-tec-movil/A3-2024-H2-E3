@@ -4,5 +4,5 @@ import ar.edu.unlam.mobile.scaffolding.domain.models.UserPhoto
 
 interface CaptureUserPhotoUseCases {
     suspend fun savePhoto(userPhoto: UserPhoto)
-    suspend fun getPhoto(): UserPhoto
+    suspend fun getPhoto(): UserPhoto?
 }

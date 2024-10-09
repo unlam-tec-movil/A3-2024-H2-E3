@@ -11,7 +11,7 @@ class CaptureUserPhotoService @Inject constructor(private val picturesRepository
         picturesRepository.savePicture(userPhoto.photo)
     }
 
-    override suspend fun getPhoto(): UserPhoto {
+    override suspend fun getPhoto(): UserPhoto? {
         return picturesRepository.getPicture()
     }
 }

@@ -77,4 +77,7 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
     androidTestImplementation(libs.google.dagger.hilt.android.testing)
     testImplementation(libs.google.dagger.hilt.android.testing)
+
+    testImplementation(libs.kotlinx.coroutines.test)
+
 }

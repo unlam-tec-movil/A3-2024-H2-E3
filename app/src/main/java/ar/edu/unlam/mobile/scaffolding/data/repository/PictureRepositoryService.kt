@@ -16,7 +16,7 @@ class PictureRepositoryService @Inject constructor(
         localDataSource.savePicture(picture)
     }
 
-    override suspend fun getPicture(): UserPhoto = withContext(coroutineDispatcher){
+    override suspend fun getPicture(): UserPhoto? = withContext(coroutineDispatcher){
         localDataSource.getPicture()
     }
 }

@@ -4,5 +4,5 @@ import ar.edu.unlam.mobile.scaffolding.domain.models.UserPhoto
 
 interface DataSource {
     suspend fun savePicture(picture: ByteArray)
-    suspend fun getPicture(): UserPhoto
+    suspend fun getPicture(): ByteArray
 }

@@ -11,6 +11,9 @@ import ar.edu.unlam.mobile.scaffolding.domain.usecases.CaptureUserPhotoUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.io.IOException

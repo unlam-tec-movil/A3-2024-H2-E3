@@ -6,4 +6,5 @@ interface GameUseCases {
     fun getRandomDicePair(): Pair<Dice, Dice>
 
     fun getDiceThrowResult(dicePair: Pair<Dice, Dice>): Int
+
 }

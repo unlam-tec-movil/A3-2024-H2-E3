@@ -1,20 +1,38 @@
 package ar.edu.unlam.mobile.scaffolding.ui.screens
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.imageResource
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
+import androidx.core.graphics.drawable.toBitmap
 import androidx.hilt.navigation.compose.hiltViewModel
+import ar.edu.unlam.mobile.scaffolding.R
 import ar.edu.unlam.mobile.scaffolding.ui.components.Dice
 
 @Composable
@@ -25,7 +43,6 @@ fun GameScreen(viewModel: GameViewModel = hiltViewModel()) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceEvenly,
     ) {
-        // TODO mostrar interfaz del juego
         Text("Sumaste: ${state.diceThrowResult}")
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -46,5 +63,92 @@ fun GameScreen(viewModel: GameViewModel = hiltViewModel()) {
         ) {
             Text("Tirar dados")
         }
+    }
+}
+
+@Composable
+fun RivalSideBoard(modifier: Modifier = Modifier, points: Int = 0) {
+    Box(modifier = modifier) {
+        Column(
+            modifier = Modifier
+                .padding(16.dp)
+                .wrapContentSize()
+                .align(Alignment.TopStart),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            PlayerCard()
+            Text(text = "Crimpy", color = Color.Red, fontSize = 24.sp)
+        }
+        Text(
+            text = "$points",
+            modifier = Modifier.align(Alignment.TopEnd),
+            color = Color.Red,
+            fontSize = 16.sp
+        )
+    }
+
+}
+
+@Composable
+fun PlayerSideBoard(
+    modifier: Modifier = Modifier,
+    userName: String,
+    image: ImageBitmap,
+    points: Int = 0
+) {
+    Box(modifier = modifier) {
+        Image(
+            bitmap = image,
+            contentDescription = null,
+            modifier = Modifier
+                .fillMaxSize()
+                .zIndex(1f)
+        )
+        Text(
+            text = userName,
+            color = Color.Black,
+            fontSize = 24.sp,
+            modifier = Modifier.align(
+                Alignment.TopStart
+            )
+        )
+        Text(
+            text = "$points",
+            modifier = Modifier.align(Alignment.TopEnd),
+            color = Color.Black,
+            fontSize = 16.sp,
+        )
+        PlayerCard(modifier = Modifier.align(Alignment.BottomEnd))
+    }
+
+}
+
+@Composable
+fun GameBoard(
+    modifier: Modifier = Modifier,
+    roundNumber: () -> Int = { 1 },
+    userImage: ImageBitmap,
+) {
+    Box(modifier = modifier) {
+        Column(modifier = Modifier.matchParentSize()) {
+            RivalSideBoard(modifier = Modifier.weight(1f))
+            PlayerSideBoard(
+                modifier = Modifier.weight(1f),
+                userName = "",
+                image = userImage
+            )
+        }
+        CardDeck(
+            modifier = Modifier
+                .align(Alignment.CenterStart)
+                .padding(8.dp)
+        )
+        Text(
+            text = stringResource(R.string.ronda, roundNumber()),
+            modifier = Modifier.align(Alignment.Center),
+            color = Color.Black,
+            fontSize = 24.sp
+        )
     }
 }

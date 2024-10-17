@@ -17,5 +17,4 @@ abstract class ServicesModule {
 
     @Binds
     abstract fun bindPlayCardService(playCardService: PlayCardService): PlayCardUseCases
-
 }

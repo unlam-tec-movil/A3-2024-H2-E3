@@ -4,5 +4,5 @@ enum class CardType {
     HEARTS,
     DIAMONDS,
     CLUBS,
-    SPADES
+    SPADES,
 }

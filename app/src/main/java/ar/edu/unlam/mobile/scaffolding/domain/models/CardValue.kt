@@ -13,5 +13,5 @@ enum class CardValue {
     TEN,
     JACK,
     QUEEN,
-    KING
+    KING,
 }

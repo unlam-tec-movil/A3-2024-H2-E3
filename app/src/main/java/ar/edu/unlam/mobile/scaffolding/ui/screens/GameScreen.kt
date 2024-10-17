@@ -31,7 +31,6 @@ fun GameScreen(viewModel: GameViewModel = hiltViewModel()) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceEvenly,
     ) {
-        // TODO mostrar interfaz del juego
         Text("Sumaste: ${state.diceThrowResult}")
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -58,15 +57,14 @@ fun GameScreen(viewModel: GameViewModel = hiltViewModel()) {
         ) {
             Text("Sacar carta")
         }
-
     }
 }
 
 @Preview
 @Composable
 fun GameScreenPreview() {
-    Box() {
-        Column() {
+    Box {
+        Column {
             RivalSideBoard()
             PlayerSideBoard()
         }

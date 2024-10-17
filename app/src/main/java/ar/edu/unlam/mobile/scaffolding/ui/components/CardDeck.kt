@@ -1,6 +1,5 @@
 package ar.edu.unlam.mobile.scaffolding.ui.components
 
-import android.content.res.loader.ResourcesLoader
 import androidx.compose.foundation.Image
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -16,23 +15,27 @@ import java.util.Locale
 fun CardDeck(modifier: Modifier = Modifier) {
     PlayCard(
         modifier = modifier,
-        card = R.drawable.box_white_on
+        card = R.drawable.box_white_on,
     )
 }
 
 @Composable
-fun PlayCard(modifier: Modifier = Modifier, card: Int) {
+fun PlayCard(
+    modifier: Modifier = Modifier,
+    card: Int,
+) {
     Image(
         painter = painterResource(id = card),
         contentDescription = null,
-        modifier = modifier
+        modifier = modifier,
     )
 }
 
-
-
 @Composable
-fun rememberPlayCard(cardValue: CardValue, cardType: CardType): Int {
+fun rememberPlayCard(
+    cardValue: CardValue,
+    cardType: CardType,
+): Int {
     val resourceName = cardType.name.lowercase(Locale.getDefault()) + "_" + cardValue.name.lowercase(Locale.getDefault())
     val resId = LocalContext.current.resources.getIdentifier(resourceName, "drawable", LocalContext.current.packageName)
     return remember {

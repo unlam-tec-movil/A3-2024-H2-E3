@@ -16,12 +16,10 @@ import rules.TestCoroutineRule
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class CaptureUserViewModelTest {
-
-
     @get:Rule
     val testCoroutineRule = TestCoroutineRule()
-    lateinit var viewModel: CaptureUserViewModel
-    lateinit var captureUserPhotoUseCase: CaptureUserPhotoUseCases
+    private lateinit var viewModel: CaptureUserViewModel
+    private lateinit var captureUserPhotoUseCase: CaptureUserPhotoUseCases
 
     @Before
     fun setUp() {
@@ -35,37 +33,40 @@ class CaptureUserViewModelTest {
     }
 
     @Test
-    fun `when user photo is captured and is not null the photo should be saved`() = runTest {
-        viewModel.onCapturedUserPhoto(byteArrayOf(1, 2, 3))
-        advanceUntilIdle()
-        assertEquals(UserPhoto(byteArrayOf(1, 2, 3)), captureUserPhotoUseCase.getPhoto())
-    }
+    fun `when user photo is captured and is not null the photo should be saved`() =
+        runTest {
+            viewModel.onCapturedUserPhoto(byteArrayOf(1, 2, 3))
+            advanceUntilIdle()
+            assertEquals(UserPhoto(byteArrayOf(1, 2, 3)), captureUserPhotoUseCase.getPhoto())
+        }
 
     @Test
-    fun `when user photo is captured and is null the photo shouldn't be saved`() = runTest {
-        viewModel.onCapturedUserPhoto(null)
-        advanceUntilIdle()
-        assertNull(captureUserPhotoUseCase.getPhoto())
-    }
+    fun `when user photo is captured and is null the photo shouldn't be saved`() =
+        runTest {
+            viewModel.onCapturedUserPhoto(null)
+            advanceUntilIdle()
+            assertNull(captureUserPhotoUseCase.getPhoto())
+        }
 
     @Test
-    fun `when user photo is correctly saved state should be photo taken`() = runTest {
-        viewModel.onCapturedUserPhoto(byteArrayOf(1, 2, 3))
-        advanceUntilIdle()
-        assertEquals(
-            CaptureUserPhotoUiState.PhotoTaken(UserPhoto(byteArrayOf(1, 2, 3))),
-            viewModel.state.value
-        )
-    }
+    fun `when user photo is correctly saved state should be photo taken`() =
+        runTest {
+            viewModel.onCapturedUserPhoto(byteArrayOf(1, 2, 3))
+            advanceUntilIdle()
+            assertEquals(
+                CaptureUserPhotoUiState.PhotoTaken(UserPhoto(byteArrayOf(1, 2, 3))),
+                viewModel.state.value,
+            )
+        }
 
     @Test
-    fun `when error happened while saving the photo state should be error`() = runTest {
-        viewModel.onCapturedUserPhoto(byteArrayOf())
-        advanceUntilIdle()
-        assertEquals(
-            CaptureUserPhotoUiState.Error(CaptureUserPhotoErrors.SavePictureError("Error while saving the picture")),
-            viewModel.state.value
-        )
-    }
-
+    fun `when error happened while saving the photo state should be error`() =
+        runTest {
+            viewModel.onCapturedUserPhoto(byteArrayOf())
+            advanceUntilIdle()
+            assertEquals(
+                CaptureUserPhotoUiState.Error(CaptureUserPhotoErrors.SavePictureError("Error while saving the picture")),
+                viewModel.state.value,
+            )
+        }
 }

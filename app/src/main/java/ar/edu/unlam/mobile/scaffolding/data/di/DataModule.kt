@@ -13,7 +13,6 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Singleton
 
-
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class DataModule {
@@ -24,7 +23,6 @@ abstract class DataModule {
     @Binds
     @Singleton
     abstract fun bindPictureRepositoryService(pictureRepositoryService: PictureRepositoryService): PictureRepository
-
 }
 
 @Module

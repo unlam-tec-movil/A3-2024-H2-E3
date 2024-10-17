@@ -16,7 +16,6 @@ import ar.edu.unlam.mobile.scaffolding.ui.utils.toByteArray
 import ar.edu.unlam.mobile.scaffolding.ui.utils.toImageBitmap
 import kotlinx.coroutines.delay
 
-
 @Composable
 fun CaptureUserScreen(
     modifier: Modifier = Modifier,
@@ -40,18 +39,17 @@ fun CaptureUserScreen(
                 modifier = modifier.fillMaxSize(),
                 bitmap = state.userPhoto.photo.toImageBitmap(),
                 contentDescription = null,
-                contentScale = ContentScale.Crop
+                contentScale = ContentScale.Crop,
             )
             LaunchedEffect(key1 = true) {
-                delay(2000) //Temporary
+                delay(2000) // Temporary
                 navigateToGame()
             }
-            //Play animation to next screen
+            // Play animation to next screen
         }
 
         is CaptureUserPhotoUiState.Error -> {
             navigateToGame()
         }
     }
-
 }

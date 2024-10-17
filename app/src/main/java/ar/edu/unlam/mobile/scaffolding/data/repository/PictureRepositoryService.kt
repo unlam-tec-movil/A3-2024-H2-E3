@@ -7,18 +7,19 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class PictureRepositoryService @Inject constructor(
-    private val localDataSource: DataSource,
-    private val coroutineDispatcher: CoroutineDispatcher = Dispatchers.IO
-) :
-    PictureRepository {
-    override suspend fun savePicture(picture: ByteArray) = withContext(coroutineDispatcher) {
-        localDataSource.savePicture(picture)
+class PictureRepositoryService
+    @Inject
+    constructor(
+        private val localDataSource: DataSource,
+        private val coroutineDispatcher: CoroutineDispatcher = Dispatchers.IO,
+    ) : PictureRepository {
+        override suspend fun savePicture(picture: ByteArray) =
+            withContext(coroutineDispatcher) {
+                localDataSource.savePicture(picture)
+            }
+
+        override suspend fun getPicture(): UserPhoto =
+            withContext(coroutineDispatcher) {
+                UserPhoto(localDataSource.getPicture())
+            }
     }
-
-    override suspend fun getPicture(): UserPhoto = withContext(coroutineDispatcher){
-        UserPhoto(localDataSource.getPicture())
-    }
-}
-
-

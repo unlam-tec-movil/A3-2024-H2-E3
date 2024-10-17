@@ -78,6 +78,16 @@ dependencies {
     androidTestImplementation(libs.google.dagger.hilt.android.testing)
     testImplementation(libs.google.dagger.hilt.android.testing)
 
+    // Coroutine testing
+    testImplementation(libs.kotlinx.coroutines.test)
+
+    // Mockk
+    testImplementation(libs.mockk)
+    testImplementation(libs.mockk.android)
+    testImplementation(libs.mockk.agent)
+    androidTestImplementation(libs.mockk.mockk.android)
+    androidTestImplementation(libs.mockk.mockk.agent)
+
     // Ktlint compose rules
     ktlintRuleset(libs.ktlint)
 }

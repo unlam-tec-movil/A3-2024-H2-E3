@@ -57,6 +57,7 @@ fun GameScreen(viewModel: GameViewModel = hiltViewModel()) {
         CardDeck()
         Button(
             onClick = viewModel::throwDices,
+            enabled = state.throwButtonEnabled,
         ) {
             Text("Tirar dados")
         }

@@ -105,4 +105,7 @@ dependencies {
 
     // Ktlint compose rules
     ktlintRuleset(libs.ktlint)
+
+    // Constraint
+    implementation(libs.androidx.constraintlayout.compose)
 }

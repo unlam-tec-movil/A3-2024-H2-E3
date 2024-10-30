@@ -5,11 +5,13 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel(),
+    navController: NavController,
 ) {
     // La información que obtenemos desde el view model la consumimos a través de un estado de
     // "tres vías": Loading, Success y Error. Esto nos permite mostrar un estado de carga,
@@ -23,7 +25,7 @@ fun HomeScreen(
 
         is HelloMessageUIState.Success -> {
             // Greeting(helloState.message, modifier)
-            GameScreen()
+            GameScreen(navController = navController)
         }
 
         is HelloMessageUIState.Error -> {

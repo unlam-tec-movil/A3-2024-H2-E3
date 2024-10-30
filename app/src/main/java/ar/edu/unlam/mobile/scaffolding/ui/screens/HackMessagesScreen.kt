@@ -1,9 +1,6 @@
 package ar.edu.unlam.mobile.scaffolding.ui.screens
 
 import android.os.Build
-import android.view.WindowInsets
-import android.view.WindowInsetsController
-import androidx.activity.ComponentActivity
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -21,7 +18,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -33,14 +29,6 @@ import kotlinx.coroutines.delay
 @RequiresApi(Build.VERSION_CODES.R)
 @Composable
 fun HackMessagesScreen(navController: NavController) {
-    val context = LocalContext.current
-    val window = (context as ComponentActivity).window
-
-    window.insetsController?.apply {
-        hide(WindowInsets.Type.systemBars())
-        systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-    }
-
     val messages =
         listOf(
             "Hemos tomado control absoluto de tu celular",

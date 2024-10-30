@@ -43,12 +43,10 @@ fun StatusMessage(
                     width = 1.dp,
                     color = BorderCardMessage,
                     shape = RoundedCornerShape(25.dp),
-                )
-                .clip(RoundedCornerShape(25.dp))
+                ).clip(RoundedCornerShape(25.dp))
                 .background(
                     color = CardMessage,
-                )
-                .fillMaxSize(),
+                ).fillMaxSize(),
         shape = RoundedCornerShape(25.dp),
     ) {
         Column(

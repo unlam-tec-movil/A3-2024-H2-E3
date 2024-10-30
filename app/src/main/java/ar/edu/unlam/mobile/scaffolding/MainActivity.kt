@@ -6,13 +6,8 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import ar.edu.unlam.mobile.scaffolding.ui.screens.CaptureUserScreen
-import ar.edu.unlam.mobile.scaffolding.ui.screens.HomeScreen
+import ar.edu.unlam.mobile.scaffolding.ui.screens.AppNavHost
 import ar.edu.unlam.mobile.scaffolding.ui.theme.ScaffoldingV2Theme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -26,23 +21,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background,
                 ) {
-                    MainScreen()
+                    AppNavHost()
                 }
-            }
-        }
-    }
-}
-
-@Composable
-fun MainScreen() {
-    val controller = rememberNavController()
-    NavHost(navController = controller, startDestination = "captureUserPhoto") {
-        composable("home") {
-            HomeScreen()
-        }
-        composable("captureUserPhoto") {
-            CaptureUserScreen {
-                controller.navigate("home")
             }
         }
     }

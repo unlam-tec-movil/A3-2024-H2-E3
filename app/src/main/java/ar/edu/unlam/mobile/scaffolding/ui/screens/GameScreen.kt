@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -26,14 +27,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import ar.edu.unlam.mobile.scaffolding.R
 import ar.edu.unlam.mobile.scaffolding.ui.components.CardDeck
 import ar.edu.unlam.mobile.scaffolding.ui.components.Dice
 import ar.edu.unlam.mobile.scaffolding.ui.components.PlayCard
 
 @Composable
-fun GameScreen(viewModel: GameViewModel = hiltViewModel()) {
+fun GameScreen(
+    viewModel: GameViewModel = hiltViewModel(),
+    locationViewModel: LocationViewModel = hiltViewModel(),
+    navController: NavController,
+) {
     val state by viewModel.state.collectAsState()
+    val context = LocalContext.current
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -64,6 +71,11 @@ fun GameScreen(viewModel: GameViewModel = hiltViewModel()) {
             onClick = viewModel::onDrawCard,
         ) {
             Text("Sacar carta")
+        }
+        Button(
+            onClick = { navController.navigate("location_screen") },
+        ) {
+            Text("Ubicación")
         }
     }
 }

@@ -21,6 +21,9 @@ mockkAndroid = "1.13.13"
 mockkAgent = "1.13.13"
 mockkAndroidVersion = "1.13.13"
 mockkAgentVersion = "1.13.13"
+location = "21.3.0"
+coroutine = "1.6.4"
+coroutineFlow = "1.6.4"
 
 [libraries]
 androidx-constraintlayout-compose = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "constraintlayoutCompose" }
@@ -50,6 +53,11 @@ mockk-mockk-agent = { module = "io.mockk:mockk-agent", version.ref = "mockkAgent
 mockk-mockk-android = { module = "io.mockk:mockk-android", version.ref = "mockkAndroidVersion" }
 mockk-agent = { module = "io.mockk:mockk-agent", version.ref = "mockkAgent" }
 mockk-android = { module = "io.mockk:mockk-android", version.ref = "mockkAndroid" }
+
+coroutine = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutine"}
+coroutineFlow = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutineFlow"}
+
+google-play-service-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "location"}
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

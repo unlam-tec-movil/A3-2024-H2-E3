@@ -46,7 +46,15 @@ android {
     }
     packaging {
         resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes +=
+                arrayOf(
+                    "/META-INF/{AL2.0,LGPL2.1}",
+                    "META-INF/LICENSE.md",
+                    "META-INF/LICENSE.txt",
+                    "META-INF/NOTICE.md",
+                    "META-INF/NOTICE.txt",
+                    "META-INF/LICENSE-notice.md",
+                )
         }
     }
 }
@@ -78,8 +86,15 @@ dependencies {
     androidTestImplementation(libs.google.dagger.hilt.android.testing)
     testImplementation(libs.google.dagger.hilt.android.testing)
 
+    // Coroutine
+    implementation(libs.coroutine)
+    implementation(libs.coroutineFlow)
+
     // Coroutine testing
     testImplementation(libs.kotlinx.coroutines.test)
+
+    // Google play services Location
+    implementation(libs.google.play.service.location)
 
     // Mockk
     testImplementation(libs.mockk)

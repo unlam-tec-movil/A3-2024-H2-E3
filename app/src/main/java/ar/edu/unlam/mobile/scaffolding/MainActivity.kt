@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import ar.edu.unlam.mobile.scaffolding.ui.screens.AppNavHost
 import ar.edu.unlam.mobile.scaffolding.ui.screens.CaptureUserScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.GameScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.HomeScreen
@@ -28,7 +29,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background,
                 ) {
-                    MainScreen()
+                    AppNavHost()
                 }
             }
         }
@@ -40,7 +41,7 @@ fun MainScreen() {
     val controller = rememberNavController()
     NavHost(navController = controller, startDestination = Routes.GAME_ROUTE) {
         composable(Routes.HOME_ROUTE) {
-            HomeScreen()
+            HomeScreen(navController = controller)
         }
         composable(Routes.CAPTURE_USER_PHOTO_ROUTE) {
             CaptureUserScreen {
@@ -48,7 +49,7 @@ fun MainScreen() {
             }
         }
         composable(Routes.GAME_ROUTE) {
-            GameScreen()
+            GameScreen(navController = controller)
         }
     }
 }

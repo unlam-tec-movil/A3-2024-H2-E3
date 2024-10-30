@@ -26,7 +26,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.delay
 
-@RequiresApi(Build.VERSION_CODES.R)
 @Composable
 fun HackMessagesScreen(navController: NavController) {
     val messages =

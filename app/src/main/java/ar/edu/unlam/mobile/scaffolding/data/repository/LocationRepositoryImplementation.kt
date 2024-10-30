@@ -45,8 +45,7 @@ class LocationRepositoryImplementation
                             // Si la ubicacion no esta disponible, retomamos la coroutine con null
                             continuation.resume(null)
                         }
-                    }
-                    .addOnFailureListener {
+                    }.addOnFailureListener {
                         // En caso de error, retomamos la coroutine con null
                         continuation.resume(null)
                     }
@@ -60,7 +59,5 @@ object FusedLocationProviderModule {
     @Provides
     fun provideFusedLocationProviderClient(
         @ApplicationContext context: Context,
-    ): FusedLocationProviderClient {
-        return LocationServices.getFusedLocationProviderClient(context)
-    }
+    ): FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
 }

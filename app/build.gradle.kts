@@ -105,4 +105,5 @@ dependencies {
 
     // Ktlint compose rules
     ktlintRuleset(libs.ktlint)
+    implementation(libs.zxing.android.embedded)
 }

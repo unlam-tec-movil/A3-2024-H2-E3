@@ -56,24 +56,27 @@ class LocationViewModel
 
                     // todo Modoficar luego, por ahora mostramos las coordenadas en un toast
                     if (locationResult != null) {
-                        Toast.makeText(
-                            context,
-                            "Longitud = ${locationResult.longitude}, Longitud: ${locationResult.latitude}",
-                            Toast.LENGTH_LONG,
-                        ).show()
+                        Toast
+                            .makeText(
+                                context,
+                                "Longitud = ${locationResult.longitude}, Longitud: ${locationResult.latitude}",
+                                Toast.LENGTH_LONG,
+                            ).show()
                     } else {
-                        Toast.makeText(
-                            context,
-                            "No se pudo obtener la ubicación",
-                            Toast.LENGTH_SHORT,
-                        ).show()
+                        Toast
+                            .makeText(
+                                context,
+                                "No se pudo obtener la ubicación",
+                                Toast.LENGTH_SHORT,
+                            ).show()
                     }
                 } else {
-                    Toast.makeText(
-                        context,
-                        "Permiso de ubicación no concedido",
-                        Toast.LENGTH_SHORT,
-                    ).show()
+                    Toast
+                        .makeText(
+                            context,
+                            "Permiso de ubicación no concedido",
+                            Toast.LENGTH_SHORT,
+                        ).show()
                 }
             }
         }

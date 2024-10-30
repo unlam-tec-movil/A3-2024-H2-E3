@@ -23,6 +23,7 @@ mockkAgentVersion = "1.13.13"
 location = "21.3.0"
 coroutine = "1.6.4"
 coroutineFlow = "1.6.4"
+zxingAndroidEmbedded = "4.3.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -56,6 +57,7 @@ coroutine = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.
 coroutineFlow = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutineFlow"}
 
 google-play-service-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "location"}
+zxing-android-embedded = { module = "com.journeyapps:zxing-android-embedded", version.ref = "zxingAndroidEmbedded" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

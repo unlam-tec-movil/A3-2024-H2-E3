@@ -12,8 +12,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import ar.edu.unlam.mobile.scaffolding.ui.screens.CaptureUserScreen
+import ar.edu.unlam.mobile.scaffolding.ui.screens.GameScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.HomeScreen
 import ar.edu.unlam.mobile.scaffolding.ui.theme.ScaffoldingV2Theme
+import ar.edu.unlam.mobile.scaffolding.ui.utils.Routes
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -36,14 +38,17 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainScreen() {
     val controller = rememberNavController()
-    NavHost(navController = controller, startDestination = "captureUserPhoto") {
-        composable("home") {
+    NavHost(navController = controller, startDestination = Routes.GAME_ROUTE) {
+        composable(Routes.HOME_ROUTE) {
             HomeScreen()
         }
-        composable("captureUserPhoto") {
+        composable(Routes.CAPTURE_USER_PHOTO_ROUTE) {
             CaptureUserScreen {
                 controller.navigate("home")
             }
+        }
+        composable(Routes.GAME_ROUTE) {
+            GameScreen()
         }
     }
 }

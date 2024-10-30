@@ -10,10 +10,13 @@ fun AppNavHost() {
     val controller = rememberNavController()
     NavHost(
         navController = controller,
-        startDestination = "captureUserPhoto",
+        startDestination = "hack_messages_screen",
     ) {
         composable("home") {
             HomeScreen(navController = controller)
+        }
+        composable("hack_messages_screen") {
+            HackMessagesScreen(navController = controller)
         }
         composable("captureUserPhoto") {
             CaptureUserScreen(

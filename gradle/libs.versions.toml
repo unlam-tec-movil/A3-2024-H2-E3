@@ -1,5 +1,6 @@
 [versions]
 agp = "8.5.2"
+constraintlayoutCompose = "1.0.1"
 kotlin = "2.0.20"
 coreKtx = "1.13.1"
 junit = "4.13.2"
@@ -26,6 +27,7 @@ coroutineFlow = "1.6.4"
 zxingAndroidEmbedded = "4.3.0"
 
 [libraries]
+androidx-constraintlayout-compose = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "constraintlayoutCompose" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
@@ -52,7 +54,6 @@ mockk-mockk-agent = { module = "io.mockk:mockk-agent", version.ref = "mockkAgent
 mockk-mockk-android = { module = "io.mockk:mockk-android", version.ref = "mockkAndroidVersion" }
 mockk-agent = { module = "io.mockk:mockk-agent", version.ref = "mockkAgent" }
 mockk-android = { module = "io.mockk:mockk-android", version.ref = "mockkAndroid" }
-
 coroutine = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutine"}
 coroutineFlow = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutineFlow"}
 

@@ -23,6 +23,7 @@ mockkAgentVersion = "1.13.13"
 location = "21.3.0"
 coroutine = "1.6.4"
 coroutineFlow = "1.6.4"
+accompanist = "0.36.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -51,7 +52,7 @@ mockk-mockk-agent = { module = "io.mockk:mockk-agent", version.ref = "mockkAgent
 mockk-mockk-android = { module = "io.mockk:mockk-android", version.ref = "mockkAndroidVersion" }
 mockk-agent = { module = "io.mockk:mockk-agent", version.ref = "mockkAgent" }
 mockk-android = { module = "io.mockk:mockk-android", version.ref = "mockkAndroid" }
-
+accompanist-systemuicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist"}
 coroutine = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutine"}
 coroutineFlow = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutineFlow"}
 

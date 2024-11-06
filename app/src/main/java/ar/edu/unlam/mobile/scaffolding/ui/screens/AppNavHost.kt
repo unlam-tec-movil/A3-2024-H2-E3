@@ -12,21 +12,25 @@ fun AppNavHost() {
         navController = controller,
         startDestination = "hack_messages_screen",
     ) {
-        composable("home") {
-            HomeScreen(navController = controller)
-        }
         composable("hack_messages_screen") {
             HackMessagesScreen(navController = controller)
         }
         composable("captureUserPhoto") {
             CaptureUserScreen(
                 navigateToGame = {
-                    controller.navigate("home")
+                    controller.navigate("menu_screen")
                 },
             )
         }
         composable("game_screen") {
             GameScreen(navController = controller)
+        }
+        composable("menu_screen") {
+            MenuScreen(
+                onStartGameClick = {
+                    controller.navigate("game_screen")
+                },
+            )
         }
         composable("location_screen") {
             LocationScreen(navController = controller)

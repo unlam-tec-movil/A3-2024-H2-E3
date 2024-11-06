@@ -47,11 +47,9 @@ import kotlinx.coroutines.launch
 @Composable
 fun GameScreen(
     viewModel: GameViewModel = hiltViewModel(),
-    locationViewModel: LocationViewModel = hiltViewModel(),
     navController: NavController,
 ) {
     val state by viewModel.state.collectAsState()
-    val context = LocalContext.current
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,

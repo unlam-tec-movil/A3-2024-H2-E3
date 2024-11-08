@@ -11,8 +11,10 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
+import javax.inject.Singleton
 import kotlin.math.sqrt
 
+@Singleton
 class GameService
     @Inject
     constructor(
@@ -32,10 +34,18 @@ class GameService
                 val firstDice = diceList.random()
                 val secondDice = diceList.random()
                 throwDices()
-                while (shakeDetected.not()) {
+                while (!shakeDetected) {
+                    // Esperar a que se detecte el agitado
                 }
                 shakeDetected = false
                 emit(Pair(firstDice, secondDice))
+            }
+
+        override fun getRandomDicePairForCPU(): Flow<Pair<Dice, Dice>> =
+            flow {
+                val dice1 = diceList.random()
+                val dice2 = diceList.random()
+                emit(Pair(dice1, dice2)) // Sin esperar el agitado
             }
 
         override fun getDiceThrowResult(dicePair: Pair<Dice, Dice>): Int = dicePair.first.value + dicePair.second.value

@@ -3,6 +3,8 @@ package ar.edu.unlam.mobile.scaffolding.ui.screens
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,6 +15,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,6 +32,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -39,6 +43,7 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import ar.edu.unlam.mobile.scaffolding.R
+import ar.edu.unlam.mobile.scaffolding.domain.models.PlayCard
 import ar.edu.unlam.mobile.scaffolding.ui.components.CardDeck
 import ar.edu.unlam.mobile.scaffolding.ui.components.Dice
 import ar.edu.unlam.mobile.scaffolding.ui.components.PlayCard
@@ -50,43 +55,92 @@ fun GameScreen(
     navController: NavController,
 ) {
     val state by viewModel.state.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.startGame(maxRounds = 10)
+    }
+
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceEvenly,
     ) {
+        Text("Ronda ${state.currentRound}")
+        if (state.isPlayerTurn) {
+            Text("Es tu turno")
+        } else {
+            Text("Es el turno de la CPU")
+        }
+
+        Text("Jugador: ${state.playerPoints} - CPU: ${state.cpuPoints}")
+
         Text("Sumaste: ${state.diceThrowResult}")
+
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceEvenly,
         ) {
-            Dice(
-                dice = state.dicePair.first,
-                modifier = Modifier.size(80.dp),
-            )
-            Dice(
-                dice = state.dicePair.second,
-                modifier = Modifier.size(80.dp),
-            )
+            Dice(dice = state.dicePair.first, modifier = Modifier.size(80.dp))
+            Dice(dice = state.dicePair.second, modifier = Modifier.size(80.dp))
         }
-        CardDeck()
-        Button(
-            onClick = viewModel::throwDices,
-            enabled = state.throwButtonEnabled,
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceEvenly,
         ) {
-            Text("Tirar dados")
+            state.playerCard?.let { card ->
+                CardView(card = card)
+            }
+            state.rivalCard?.let { card ->
+                CardView(card = card)
+            }
         }
+
         Button(
-            onClick = viewModel::onDrawCard,
+            onClick = viewModel::playerDrawCard,
+            enabled = !state.gameOver && state.isPlayerTurn,
         ) {
             Text("Sacar carta")
         }
+
         Button(
-            onClick = { navController.navigate("location_screen") },
+            onClick = viewModel::playerThrowDices,
+            enabled = state.throwButtonEnabled && !state.gameOver && state.isPlayerTurn,
         ) {
-            Text("Ubicación")
+            Text("Tirar dados")
         }
+
+        if (state.gameOver) {
+            Text(
+                text = "Ganador: ${state.winner}",
+                fontSize = 24.sp,
+                color = Color.Green,
+            )
+            Button(onClick = { navController.popBackStack() }) {
+                Text("Volver al inicio")
+            }
+        }
+    }
+}
+
+@Composable
+fun CardView(card: PlayCard) {
+    Box(
+        modifier =
+            Modifier
+                .size(100.dp)
+                .background(Color.White, RoundedCornerShape(8.dp))
+                .border(2.dp, Color.Black, RoundedCornerShape(8.dp)),
+        contentAlignment = Alignment.Center,
+    ) {
+        Text(
+            text = "Carta: ${card.value.numericValue} + ${card.type}",
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color.Black,
+        )
     }
 }
 

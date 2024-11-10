@@ -36,8 +36,14 @@ fun rememberPlayCard(
     cardValue: CardValue,
     cardType: CardType,
 ): Int {
-    val resourceName = cardType.name.lowercase(Locale.getDefault()) + "_" + cardValue.name.lowercase(Locale.getDefault())
-    val resId = LocalContext.current.resources.getIdentifier(resourceName, "drawable", LocalContext.current.packageName)
+    val resourceName =
+        cardType.name.lowercase(Locale.getDefault()) + "_" + cardValue.name.lowercase(Locale.getDefault())
+    val resId =
+        LocalContext.current.resources.getIdentifier(
+            resourceName,
+            "drawable",
+            LocalContext.current.packageName,
+        )
     return remember {
         resId
     }

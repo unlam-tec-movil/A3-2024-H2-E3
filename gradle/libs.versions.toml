@@ -1,5 +1,6 @@
 [versions]
 agp = "8.5.2"
+constraintlayoutCompose = "1.0.1"
 kotlin = "2.0.20"
 coreKtx = "1.13.1"
 junit = "4.13.2"
@@ -23,8 +24,10 @@ mockkAgentVersion = "1.13.13"
 location = "21.3.0"
 coroutine = "1.6.4"
 coroutineFlow = "1.6.4"
+zxingAndroidEmbedded = "4.3.0"
 
 [libraries]
+androidx-constraintlayout-compose = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "constraintlayoutCompose" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
@@ -55,6 +58,7 @@ coroutine = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.
 coroutineFlow = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutineFlow"}
 
 google-play-service-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "location"}
+zxing-android-embedded = { module = "com.journeyapps:zxing-android-embedded", version.ref = "zxingAndroidEmbedded" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

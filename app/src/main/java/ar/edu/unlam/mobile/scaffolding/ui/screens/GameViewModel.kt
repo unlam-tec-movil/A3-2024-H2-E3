@@ -63,7 +63,6 @@ class GameViewModel
         fun playerThrowDices() {
             viewModelScope.launch(Dispatchers.IO) {
                 enableThrowButton(false)
-                println("hola es tu turno")
 
                 gameUseCases.getRandomDicePair().collect { dicePair ->
                     val diceThrowResult = gameUseCases.getDiceThrowResult(dicePair)
@@ -78,13 +77,9 @@ class GameViewModel
 
                     when (_state.value.playerCard?.value) {
                         CardValue.ACE -> {
-                            println("hola detectamos carta ${_state.value.playerCard}")
-                            println("hola detectamos el dado ${_state.value.dicePair.first.value}")
                             if (dicePair.first.value == CardValue.ACE.numericValue
                             ) {
-                                println("hola los puntos son ${_state.value.playerPoints}")
                                 playerPoints = _state.value.playerPoints + 1
-                                println("hola y ahora los puntos son ${_state.value.playerPoints}")
                             } else {
                                 playerPoints = _state.value.playerPoints
                                 nextRound()
@@ -95,7 +90,6 @@ class GameViewModel
                         }
 
                         CardValue.KING -> {
-                            println("hola detectamos carta ${_state.value.playerCard}")
                             if (dicePair.first.value + diceThrowResult == CardValue.KING.numericValue
                             ) {
                                 playerPoints = _state.value.playerPoints + 1
@@ -107,7 +101,6 @@ class GameViewModel
                         }
 
                         else -> {
-                            println("hola detectamos carta ${_state.value.playerCard}")
                             if (_state.value.playerCard
                                     ?.value
                                     ?.numericValue == diceThrowResult
@@ -119,12 +112,10 @@ class GameViewModel
                             checkIfIsGameOver()
                             // Si la carta no coincide con los dados, el turno pasa a la CPU
 
-                            println("hola el valor es $diceThrowResult ")
                             if (_state.value.playerCard
                                     ?.value
                                     ?.numericValue != diceThrowResult
                             ) {
-                                println("hola esta por cambiar el turno")
                                 nextRound()
                                 switchTurn()
                             }
@@ -147,12 +138,10 @@ class GameViewModel
         private suspend fun cpuTurn() {
             if (_state.value.gameOver) return
 
-            println("holaCPU es el turno de la cpu")
             delay(2000)
 
             viewModelScope.launch {
                 val cpuCard = playCardUseCases.drawCard() // La CPU saca una carta
-                println("holaCPU el valor de la carta de la cpu es ${cpuCard.value}")
                 _state.update { currentState ->
                     currentState.copy(rivalCard = cpuCard)
                 }
@@ -160,7 +149,6 @@ class GameViewModel
                 gameUseCases.getRandomDicePairForCPU().collect { dicePair ->
 
                     val diceThrowResult = gameUseCases.getDiceThrowResult(dicePair)
-                    println("holaCPU el valor de lo dados de la cpu es $diceThrowResult")
                     _state.update { currentState ->
                         currentState.copy(rivalDiceResult = diceThrowResult)
                     }
@@ -169,13 +157,9 @@ class GameViewModel
 
                     when (_state.value.rivalCard?.value) {
                         CardValue.ACE -> {
-                            println("holaCPU detectamos carta ${_state.value.rivalCard}")
-                            println("holaCPU detectamos el dado ${_state.value.dicePair.first.value}")
                             if (dicePair.first.value == CardValue.ACE.numericValue
                             ) {
-                                println("holaCPU los puntos son ${_state.value.cpuPoints}")
                                 cpuPoints = _state.value.cpuPoints + 1
-                                println("holaCPU y ahora los puntos son ${_state.value.cpuPoints}")
                                 cpuTurn()
                             } else {
                                 cpuPoints = _state.value.cpuPoints
@@ -187,7 +171,6 @@ class GameViewModel
                         }
 
                         CardValue.KING -> {
-                            println("holaCPU detectamos carta ${_state.value.rivalCard}")
                             if (dicePair.first.value + diceThrowResult == CardValue.KING.numericValue
                             ) {
                                 cpuPoints = _state.value.cpuPoints + 1
@@ -200,7 +183,6 @@ class GameViewModel
                         }
 
                         else -> {
-                            println("holaCPU detectamos carta ${_state.value.rivalCard}")
                             if (_state.value.rivalCard
                                     ?.value
                                     ?.numericValue == diceThrowResult
@@ -212,12 +194,10 @@ class GameViewModel
                             }
                             checkIfIsGameOver()
 
-                            println("holaCPU el valor es $diceThrowResult ")
                             if (_state.value.rivalCard
                                     ?.value
                                     ?.numericValue != diceThrowResult
                             ) {
-                                println("holaCPU esta por cambiar el turno")
                                 nextRound()
                                 switchTurn()
                             }
@@ -251,17 +231,11 @@ class GameViewModel
         suspend fun switchTurn() {
             if (_state.value.gameOver) return
 
-            println("hola no fue game Over")
-
-            println("hola el primer estado es isplayerturn: ${_state.value.isPlayerTurn}")
-
             _state.update { currentState ->
                 currentState.copy(isPlayerTurn = !currentState.isPlayerTurn)
             }
-            println("hola el estado luego es isplayerturn: ${_state.value.isPlayerTurn}")
 
             if (!_state.value.isPlayerTurn) {
-                println("hola el estado luego es isplayerturn: ${_state.value.isPlayerTurn}")
                 cpuTurn()
             } else {
                 // playerDrawCard()
@@ -275,12 +249,10 @@ class GameViewModel
                     _state.update {
                         it.copy(gameOver = true, winner = "Player")
                     }
-                    println("hola ganó player Game Over")
                 } else if (_state.value.cpuPoints > _state.value.playerPoints) {
                     _state.update {
                         it.copy(gameOver = true, winner = "CPU")
                     }
-                    println("hola ganó CPU Game Over")
                 } else {
                     _state.update {
                         it.copy(gameOver = true, winner = "Nadie - Empate")

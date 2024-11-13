@@ -23,10 +23,14 @@ fun CaptureUserScreen(
     navigateToGame: () -> Unit,
 ) {
     val uiState by viewModel.state.collectAsStateWithLifecycle()
+
     val captureUserPhoto =
-        rememberLauncherForActivityResult(contract = ActivityResultContracts.TakePicturePreview()) { picture ->
+        rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.TakePicturePreview(),
+        ) { picture ->
             viewModel.onCapturedUserPhoto(picture?.toByteArray())
         }
+
     when (val state = uiState) {
         is CaptureUserPhotoUiState.Starting -> {
             LaunchedEffect(key1 = true) {

@@ -110,4 +110,30 @@ class GameViewModelTest {
                 assertEquals(cpuCard.value.numericValue, 2)
             }
         }
+
+    @Test
+    fun `nextRound should increment currentRound`() =
+        runTest {
+            viewModel.startGame(10)
+
+            val initialRound = viewModel.state.value.currentRound
+            viewModel.nextRound()
+            val updatedRound = viewModel.state.value.currentRound
+
+            assertEquals(initialRound + 1, updatedRound)
+        }
+
+    @Test
+    fun `when points are equal, game should end in draw`() =
+        runTest {
+            viewModel.startGame(2)
+
+            viewModel.nextRound()
+
+            viewModel.checkIfIsGameOver()
+
+            val updatedState = viewModel.state.value
+            val esperado = "Nadie - Empate"
+            assertEquals(esperado, updatedState.winner)
+        }
 }

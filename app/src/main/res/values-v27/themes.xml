@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.ScaffoldingV2" parent="android:Theme.Material.Light.NoActionBar">
+        <!--Configuramos la barra de estado-->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">false</item>
+
+        <!-- Configuracion de la barra de navegacion-->
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLightNavigationBar">false</item>
+
+        <!-- Nos aseguramos que la ventana dibuje los fondos de la barra del sistema-->
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+
+        <!-- Deshabilitamos la transparecia en la barra de navegacion que podria estar habilitada-->
+        <item name="android:windowTranslucentNavigation">false</item>
+    </style>
+</resources>

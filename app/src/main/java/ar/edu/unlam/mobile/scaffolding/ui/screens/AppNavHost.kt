@@ -15,39 +15,41 @@ import ar.edu.unlam.mobile.scaffolding.ui.screens.map.MapScreen
 
 @Composable
 fun AppNavHost() {
-    val controller = rememberNavController()
+    val navController = rememberNavController()
     NavHost(
-        navController = controller,
-        startDestination = "map_screen",
+        navController = navController,
+        startDestination = "hack_messages_screen",
     ) {
         composable("hack_messages_screen") {
-            HackMessagesScreen(navController = controller)
+            HackMessagesScreen(
+                navController = navController,
+            )
         }
         composable("captureUserPhoto") {
-            CaptureUserScreen(
+            CaptureUserFlowScreen(
                 navigateToGame = {
-                    controller.navigate("menu_screen")
+                    navController.navigate("CaptureFlow")
                 },
             )
         }
         composable("game_screen") {
-            // GameScreen(navController = controller)
             var triggerAnim by remember {
                 mutableStateOf(false)
             }
             GameScreenPreview(triggerAnim = triggerAnim, onDrawCard = {
                 triggerAnim = true
             })
+            // GameScreen(navController = navController)
         }
         composable("menu_screen") {
             MenuScreen(
                 onStartGameClick = {
-                    controller.navigate("game_screen")
+                    navController.navigate("game_screen")
                 },
             )
         }
         composable("location_screen") {
-            LocationScreen(navController = controller)
+            LocationScreen(navController = navController)
         }
         composable("map_screen") {
             MapScreen(modifier = Modifier.fillMaxSize())

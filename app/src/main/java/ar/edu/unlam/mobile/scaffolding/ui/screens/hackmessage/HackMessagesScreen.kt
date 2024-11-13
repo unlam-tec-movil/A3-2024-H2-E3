@@ -1,4 +1,4 @@
-package ar.edu.unlam.mobile.scaffolding.ui.screens
+package ar.edu.unlam.mobile.scaffolding.ui.screens.hackmessage
 
 import android.os.Build
 import androidx.annotation.RequiresApi

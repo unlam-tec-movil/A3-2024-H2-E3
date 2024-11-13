@@ -4,6 +4,8 @@ import ar.edu.unlam.mobile.scaffolding.domain.models.UserPhoto
 import ar.edu.unlam.mobile.scaffolding.domain.models.errors.CaptureUserPhotoErrors
 import ar.edu.unlam.mobile.scaffolding.domain.usecases.CaptureUserPhotoUseCases
 import ar.edu.unlam.mobile.scaffolding.fakes.CaptureUserPhotoUseCasesFake
+import ar.edu.unlam.mobile.scaffolding.ui.screens.captureuserphoto.CaptureUserPhotoUiState
+import ar.edu.unlam.mobile.scaffolding.ui.screens.captureuserphoto.CaptureUserViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest

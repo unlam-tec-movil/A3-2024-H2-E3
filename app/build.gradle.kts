@@ -105,8 +105,10 @@ dependencies {
 
     // Ktlint compose rules
     ktlintRuleset(libs.ktlint)
-    implementation(libs.zxing.android.embedded)
 
     // Constraint
     implementation(libs.androidx.constraintlayout.compose)
+
+    // Maps
+    implementation(libs.osmdroid.android)
 }

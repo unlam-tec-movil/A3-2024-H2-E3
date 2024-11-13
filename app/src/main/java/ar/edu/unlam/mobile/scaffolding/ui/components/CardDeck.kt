@@ -2,13 +2,12 @@ package ar.edu.unlam.mobile.scaffolding.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import ar.edu.unlam.mobile.scaffolding.R
-import ar.edu.unlam.mobile.scaffolding.domain.models.CardType
-import ar.edu.unlam.mobile.scaffolding.domain.models.CardValue
+import ar.edu.unlam.mobile.scaffolding.domain.models.PlayCard
+import ar.edu.unlam.mobile.scaffolding.domain.models.toNumberName
 import java.util.Locale
 
 @Composable
@@ -32,19 +31,15 @@ fun PlayCard(
 }
 
 @Composable
-fun rememberPlayCard(
-    cardValue: CardValue,
-    cardType: CardType,
-): Int {
+fun getCardImage(card: PlayCard?): Int {
+    if (card == null) return R.drawable.box_white_on
     val resourceName =
-        cardType.name.lowercase(Locale.getDefault()) + "_" + cardValue.name.lowercase(Locale.getDefault())
+        card.type.name.lowercase(Locale.getDefault()) + "_" + card.value.toNumberName()
     val resId =
         LocalContext.current.resources.getIdentifier(
             resourceName,
             "drawable",
             LocalContext.current.packageName,
         )
-    return remember {
-        resId
-    }
+    return resId
 }

@@ -8,8 +8,10 @@ import android.hardware.SensorManager
 import ar.edu.unlam.mobile.scaffolding.domain.models.Dice
 import ar.edu.unlam.mobile.scaffolding.domain.usecases.GameUseCases
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.math.sqrt
@@ -39,14 +41,14 @@ class GameService
                 }
                 shakeDetected = false
                 emit(Pair(firstDice, secondDice))
-            }
+            }.flowOn(Dispatchers.IO)
 
         override fun getRandomDicePairForCPU(): Flow<Pair<Dice, Dice>> =
             flow {
                 val dice1 = diceList.random()
                 val dice2 = diceList.random()
                 emit(Pair(dice1, dice2)) // Sin esperar el agitado
-            }
+            }.flowOn(Dispatchers.IO)
 
         override fun getDiceThrowResult(dicePair: Pair<Dice, Dice>): Int = dicePair.first.value + dicePair.second.value
 

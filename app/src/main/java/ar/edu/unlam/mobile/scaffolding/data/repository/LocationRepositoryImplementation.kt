@@ -4,7 +4,8 @@ import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
-import ar.edu.unlam.mobile.scaffolding.domain.models.LocationResult
+import ar.edu.unlam.mobile.scaffolding.domain.models.Location
+import ar.edu.unlam.mobile.scaffolding.domain.models.RivalLocation
 import ar.edu.unlam.mobile.scaffolding.domain.repository.LocationRepository
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -23,7 +24,9 @@ class LocationRepositoryImplementation
         private val fusedLocationProviderClient: FusedLocationProviderClient,
         @ApplicationContext private val context: Context,
     ) : LocationRepository {
-        override suspend fun getLastKnownLocation(): LocationResult? {
+        private var rivalLocationStorage = RivalLocation.FAR
+
+        override suspend fun getLastKnownLocation(): Location? {
             // Verificamos permisos
             val hasPermission =
                 ContextCompat.checkSelfPermission(
@@ -40,7 +43,7 @@ class LocationRepositoryImplementation
                     .addOnSuccessListener { location ->
                         // Si obtenemos una ubicación válida, retomamos la coroutine con la ubicación
                         if (location != null) {
-                            continuation.resume((LocationResult(location.latitude, location.longitude)))
+                            continuation.resume((Location(location.latitude, location.longitude)))
                         } else {
                             // Si la ubicacion no esta disponible, retomamos la coroutine con null
                             continuation.resume(null)
@@ -50,6 +53,12 @@ class LocationRepositoryImplementation
                         continuation.resume(null)
                     }
             }
+        }
+
+        override suspend fun getLastRivalLocation(): RivalLocation = rivalLocationStorage
+
+        override suspend fun updateRivalLocation(location: RivalLocation) {
+            this.rivalLocationStorage = location
         }
     }
 

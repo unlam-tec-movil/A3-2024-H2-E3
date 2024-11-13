@@ -20,7 +20,6 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ar.edu.unlam.mobile.scaffolding.ui.theme.BorderCardMessage
@@ -29,7 +28,7 @@ import ar.edu.unlam.mobile.scaffolding.ui.theme.CardMessage
 @Composable
 fun StatusMessage(
     isPlayerTurn: Boolean,
-    statusMesssage: String
+    statusMesssage: String,
 ) {
     Card(
         colors =
@@ -47,8 +46,7 @@ fun StatusMessage(
                 ).clip(RoundedCornerShape(25.dp))
                 .background(
                     color = CardMessage,
-                )
-                .alpha(0.8f)
+                ).alpha(0.8f)
                 .fillMaxSize(),
         shape = RoundedCornerShape(25.dp),
     ) {
@@ -61,7 +59,7 @@ fun StatusMessage(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
-                text = "Turno de ${if (isPlayerTurn)"Jugador" else "Cpu"}",
+                text = "Turno de ${if (isPlayerTurn) "Jugador" else "Cpu"}",
                 textAlign = TextAlign.Center,
                 color = Color.Red,
                 fontSize = 25.sp,
@@ -76,5 +74,3 @@ fun StatusMessage(
         }
     }
 }
-
-

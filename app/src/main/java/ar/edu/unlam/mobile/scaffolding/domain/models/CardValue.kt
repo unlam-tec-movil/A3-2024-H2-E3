@@ -1,6 +1,8 @@
 package ar.edu.unlam.mobile.scaffolding.domain.models
 
-enum class CardValue(val numericValue: Int) {
+enum class CardValue(
+    val numericValue: Int,
+) {
     ACE(1),
     TWO(2),
     THREE(3),

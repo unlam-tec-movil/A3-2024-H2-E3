@@ -2,7 +2,6 @@ package ar.edu.unlam.mobile.scaffolding.domain.usecases
 
 import ar.edu.unlam.mobile.scaffolding.domain.models.Dice
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 
 interface GameUseCases {

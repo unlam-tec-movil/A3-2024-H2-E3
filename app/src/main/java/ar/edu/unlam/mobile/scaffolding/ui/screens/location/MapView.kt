@@ -45,8 +45,17 @@ fun MapScreen(
             mapView.controller.setCenter(userLocation.toGeoPoint())
             val rivalMarker = Marker(mapView)
             val userMarker = Marker(mapView)
-            rivalMarker.icon = ResourcesCompat.getDrawable(currentContext.resources, R.drawable.payaso_marker, null)
-            userMarker.icon = getCircularBitmap(userImage.asAndroidBitmap(), 200).toDrawable(resources = currentContext.resources)
+            rivalMarker.icon =
+                ResourcesCompat.getDrawable(
+                    currentContext.resources,
+                    R.drawable.payaso_marker,
+                    null,
+                )
+            userMarker.icon =
+                getCircularBitmap(
+                    userImage.asAndroidBitmap(),
+                    200,
+                ).toDrawable(resources = currentContext.resources)
             userMarker.position = rivalLocation.toGeoPoint()
             mapView.overlays.add(rivalMarker)
             mapView.overlays.add(userMarker)
@@ -74,7 +83,10 @@ fun getCircularBitmap(
 
     val path =
         android.graphics.Path().apply {
-            addOval(RectF(0f, 0f, diameter.toFloat(), diameter.toFloat()), android.graphics.Path.Direction.CCW)
+            addOval(
+                RectF(0f, 0f, diameter.toFloat(), diameter.toFloat()),
+                android.graphics.Path.Direction.CCW,
+            )
         }
 
     canvas.clipPath(path)

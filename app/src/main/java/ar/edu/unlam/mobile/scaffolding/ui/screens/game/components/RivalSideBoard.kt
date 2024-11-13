@@ -50,7 +50,7 @@ fun RivalSideBoard(
                     Modifier
                         .padding(16.dp)
                         .size(96.dp)
-                        .alpha(1f)
+                        .alpha(0f)
                         .onGloballyPositioned {
                             onPlaced(it.positionOnScreen())
                         },

@@ -33,6 +33,7 @@ data class GameState(
     val gameOver: Boolean = false,
     val winner: String? = null,
     val isPlayerTurn: Boolean = true,
+    val isDrawingCard: Boolean = false,
     val rivalDiceResult: Int = 0,
 )
 
@@ -47,7 +48,7 @@ class GameViewModel
         private val _state = MutableStateFlow(GameState())
         val state = _state.asStateFlow()
 
-        init {
+        fun startGame(maxRounds: Int) {
             viewModelScope.launch {
                 getUserPhotoUseCases.getPhoto()?.photo.let { photo ->
                     _state.update {
@@ -56,12 +57,9 @@ class GameViewModel
                         )
                     }
                 }
+                _state.value = GameState(maxRounds = maxRounds)
+                playerDrawCard() // Empezar tomando carta
             }
-        }
-
-        fun startGame(maxRounds: Int) {
-            _state.value = GameState(maxRounds = maxRounds)
-            playerDrawCard() // Empezar tomando carta
         }
 
         fun playerDrawCard() {
@@ -69,6 +67,8 @@ class GameViewModel
                 val playerCard = playCardUseCases.drawCard()
                 _state.update { currentState ->
                     currentState.copy(
+                        isPlayerTurn = true,
+                        isDrawingCard = true,
                         playerCard = playerCard,
                         diceThrowResult = 0,
                     )
@@ -79,7 +79,6 @@ class GameViewModel
         fun playerThrowDices() {
             viewModelScope.launch(Dispatchers.IO) {
                 enableThrowButton(false)
-                println("hola es tu turno")
 
                 gameUseCases.getRandomDicePair().collect { dicePair ->
                     val diceThrowResult = gameUseCases.getDiceThrowResult(dicePair)

@@ -16,7 +16,7 @@ enum class CardValue {
     KING,
 }
 
-fun CardValue.toNumberName(): String  {
+fun CardValue.toNumberName(): String =
     when (this) {
         CardValue.ACE -> "ace"
         CardValue.TWO -> "2"
@@ -32,4 +32,3 @@ fun CardValue.toNumberName(): String  {
         CardValue.QUEEN -> "qween"
         CardValue.KING -> "king"
     }
-}

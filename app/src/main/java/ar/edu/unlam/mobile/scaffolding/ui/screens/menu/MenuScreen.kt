@@ -1,4 +1,4 @@
-package ar.edu.unlam.mobile.scaffolding.ui.screens
+package ar.edu.unlam.mobile.scaffolding.ui.screens.menu
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -15,7 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ar.edu.unlam.mobile.scaffolding.R
 import ar.edu.unlam.mobile.scaffolding.ui.components.MenuButton
@@ -51,26 +50,5 @@ fun TitleMenu(modifier: Modifier = Modifier) {
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
         )
-        /*Text(
-            text = "Carteados",
-            fontFamily = FontFamily(Font(R.font.aldrich)),
-            fontSize = 55.sp,
-            style =
-            TextStyle.Default.copy(
-                brush =
-                Brush.linearGradient(
-                    0f to gradientBlue,
-                    1f to gradientOrange,
-                ),
-                drawStyle = Stroke(),
-                fontWeight = FontWeight.Bold,
-            ),
-        )*/
     }
-}
-
-@Preview
-@Composable
-private fun MenuScreenPreview() {
-    MenuScreen({})
 }

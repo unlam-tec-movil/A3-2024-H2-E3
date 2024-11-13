@@ -1,4 +1,4 @@
-package ar.edu.unlam.mobile.scaffolding.ui.screens
+package ar.edu.unlam.mobile.scaffolding.ui.screens.location
 
 import android.Manifest
 import android.content.Context
@@ -8,6 +8,8 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import ar.edu.unlam.mobile.scaffolding.data.repository.LocationRepositoryImplementation
+import ar.edu.unlam.mobile.scaffolding.domain.models.Location
+import ar.edu.unlam.mobile.scaffolding.domain.models.RivalLocation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,6 +29,14 @@ class LocationViewModel
         // Estado del permiso, observable desde la UI
         private val _hasLocationPermission = MutableStateFlow(false)
         val hasLocationPermission: StateFlow<Boolean> = _hasLocationPermission
+        private val _showMap = MutableStateFlow(false)
+        val showMap: StateFlow<Boolean> = _showMap
+        private val _rivalLocation = MutableStateFlow(RivalLocation.FAR.location)
+        val rivalLocation: StateFlow<Location> = _rivalLocation
+        private val _userLocation = MutableStateFlow(Location(-34.668113504630966, -58.56664670589329))
+        val userLocation: StateFlow<Location> = _userLocation
+        private val _userImage: MutableStateFlow<ByteArray> = MutableStateFlow(byteArrayOf())
+        val userImage: StateFlow<ByteArray> = _userImage
 
         init {
             checkLocationPermission()
@@ -53,16 +63,11 @@ class LocationViewModel
                 // Verificamos permisos
                 if (_hasLocationPermission.value) {
                     val locationResult = locationRepositoryImplementation.getLastKnownLocation()
-
-                    // todo Modoficar luego, por ahora mostramos las coordenadas en un toast
                     if (locationResult != null) {
-                        Toast
-                            .makeText(
-                                context,
-                                "Longitud = ${locationResult.longitude}, Longitud: ${locationResult.latitude}",
-                                Toast.LENGTH_LONG,
-                            ).show()
+                        _userLocation.value = locationResult
+                        _showMap.value = true
                     } else {
+                        _showMap.value = false
                         Toast
                             .makeText(
                                 context,

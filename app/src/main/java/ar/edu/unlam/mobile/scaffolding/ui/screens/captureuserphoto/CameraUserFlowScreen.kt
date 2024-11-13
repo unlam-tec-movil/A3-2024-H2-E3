@@ -1,4 +1,4 @@
-package ar.edu.unlam.mobile.scaffolding.ui.screens
+package ar.edu.unlam.mobile.scaffolding.ui.screens.captureuserphoto
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -10,19 +10,19 @@ import androidx.compose.ui.Modifier
 @Composable
 fun CaptureUserFlowScreen(
     modifier: Modifier = Modifier,
-    navigateToGame: () -> Unit,
+    navigateToMenu: () -> Unit,
 ) {
     var hasCameraPermission by remember { mutableStateOf(false) }
 
     if (!hasCameraPermission) {
         CameraPermissionRequester(
             onPermissionGranted = { hasCameraPermission = true },
-            onPermissionDenied = { navigateToGame() },
+            onPermissionDenied = { navigateToMenu() },
         )
     } else {
         CaptureUserScreen(
             modifier = modifier,
-            navigateToGame = navigateToGame,
+            navigateToGame = navigateToMenu,
         )
     }
 }

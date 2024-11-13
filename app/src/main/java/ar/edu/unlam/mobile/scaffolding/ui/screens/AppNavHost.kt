@@ -1,58 +1,56 @@
 package ar.edu.unlam.mobile.scaffolding.ui.screens
 
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import ar.edu.unlam.mobile.scaffolding.ui.screens.captureuserphoto.CaptureUserFlowScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.game.components.GameScreenPreview
-import ar.edu.unlam.mobile.scaffolding.ui.screens.map.MapScreen
+import ar.edu.unlam.mobile.scaffolding.ui.screens.hackmessage.HackMessagesScreen
+import ar.edu.unlam.mobile.scaffolding.ui.screens.location.LocationScreen
+import ar.edu.unlam.mobile.scaffolding.ui.screens.menu.MenuScreen
+import ar.edu.unlam.mobile.scaffolding.ui.utils.Routes.CAPTURE_USER_PHOTO_ROUTE
+import ar.edu.unlam.mobile.scaffolding.ui.utils.Routes.GAME_ROUTE
+import ar.edu.unlam.mobile.scaffolding.ui.utils.Routes.HACK_MESSAGE_ROUTE
+import ar.edu.unlam.mobile.scaffolding.ui.utils.Routes.MAP_ROUTE
+import ar.edu.unlam.mobile.scaffolding.ui.utils.Routes.MENU_ROUTE
 
 @Composable
 fun AppNavHost() {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = "hack_messages_screen",
+        startDestination = HACK_MESSAGE_ROUTE,
     ) {
-        composable("hack_messages_screen") {
+        composable(HACK_MESSAGE_ROUTE) {
             HackMessagesScreen(
                 navController = navController,
             )
         }
-        composable("captureUserPhoto") {
+        composable(CAPTURE_USER_PHOTO_ROUTE) {
             CaptureUserFlowScreen(
-                navigateToGame = {
-                    navController.navigate("CaptureFlow")
+                navigateToMenu = {
+                    navController.navigate(MENU_ROUTE)
                 },
             )
         }
-        composable("game_screen") {
-            var triggerAnim by remember {
-                mutableStateOf(false)
-            }
-            GameScreenPreview(triggerAnim = triggerAnim, onDrawCard = {
-                triggerAnim = true
-            })
-            // GameScreen(navController = navController)
-        }
-        composable("menu_screen") {
+        composable(MENU_ROUTE) {
             MenuScreen(
                 onStartGameClick = {
-                    navController.navigate("game_screen")
+                    navController.navigate(GAME_ROUTE)
                 },
             )
         }
-        composable("location_screen") {
-            LocationScreen(navController = navController)
+        composable(GAME_ROUTE) {
+            GameScreenPreview()
+            // GameScreen(navController = navController)
         }
-        composable("map_screen") {
-            MapScreen(modifier = Modifier.fillMaxSize())
+        composable(MAP_ROUTE) {
+            LocationScreen(navController = navController)
         }
     }
 }

@@ -1,11 +1,9 @@
-package ar.edu.unlam.mobile.scaffolding.ui.screens
+package ar.edu.unlam.mobile.scaffolding.ui.screens.location
 
 import android.Manifest
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -16,6 +14,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import ar.edu.unlam.mobile.scaffolding.ui.utils.toImageBitmap
 
 @Composable
 fun LocationScreen(
@@ -24,7 +23,10 @@ fun LocationScreen(
 ) {
     val context = LocalContext.current
     val hasPermission by viewModel.hasLocationPermission.collectAsState()
-
+    val showMap by viewModel.showMap.collectAsState()
+    val rivalLocation by viewModel.rivalLocation.collectAsState()
+    val userLocation by viewModel.userLocation.collectAsState()
+    val userImage by viewModel.userImage.collectAsState()
     // Verificamos el permiso inicial al principio de la función
     LaunchedEffect(Unit) {
         viewModel.checkLocationPermission()
@@ -32,16 +34,13 @@ fun LocationScreen(
 
     if (hasPermission) {
         // Muestra la UI que requiere permiso de ubicación
-        Text("Se puede acceder a la ubicacion")
-        Spacer(modifier = Modifier.padding(50.dp))
-        Button(
-            onClick = {
-                // Mostramos la ubicacion en latitud y longitud
-                viewModel.showLocation(context)
-            },
-        ) {
-            Text("Obtener ubicación")
-        }
+        MapScreen(
+            modifier = Modifier.padding(16.dp),
+            showMap = showMap,
+            rivalLocation = rivalLocation,
+            userLocation = userLocation,
+            userImage = userImage.toImageBitmap(),
+        )
     } else {
         // Llama al composable para solicitar permiso
         Text("Se volvera a pedir permiso")

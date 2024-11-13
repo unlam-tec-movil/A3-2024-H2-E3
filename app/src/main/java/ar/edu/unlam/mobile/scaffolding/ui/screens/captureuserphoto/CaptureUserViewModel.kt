@@ -1,4 +1,4 @@
-package ar.edu.unlam.mobile.scaffolding.ui.screens
+package ar.edu.unlam.mobile.scaffolding.ui.screens.captureuserphoto
 
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
@@ -29,7 +29,14 @@ class CaptureUserViewModel
                 viewModelScope.launch {
                     try {
                         captureUserPhotoUseCase.savePhoto(UserPhoto(picture))
-                        _state.update { CaptureUserPhotoUiState.PhotoTaken(userPhoto = UserPhoto(picture)) }
+                        _state.update {
+                            CaptureUserPhotoUiState.PhotoTaken(
+                                userPhoto =
+                                    UserPhoto(
+                                        picture,
+                                    ),
+                            )
+                        }
                     } catch (e: CaptureUserPhotoExceptions) {
                         _state.update { CaptureUserPhotoUiState.Error(e.toError()) }
                     }

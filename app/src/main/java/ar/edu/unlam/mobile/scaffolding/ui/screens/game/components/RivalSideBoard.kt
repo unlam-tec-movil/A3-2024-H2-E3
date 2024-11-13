@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -28,47 +27,41 @@ import ar.edu.unlam.mobile.scaffolding.ui.components.PlayCard
 fun RivalSideBoard(
     modifier: Modifier = Modifier,
     points: Int = 0,
-) {
-    Box(modifier = modifier) {
-        Column(
-            modifier =
-                Modifier
-                    .padding(16.dp)
-                    .wrapContentSize()
-                    .align(Alignment.TopStart),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
-            PlayCard(modifier = Modifier.size(80.dp), 0)
-            Text(text = "Crimpy", color = Color.Red, fontSize = 24.sp)
-        }
-        Text(
-            text = "$points",
-            modifier = Modifier.align(Alignment.TopEnd),
-            color = Color.Red,
-            fontSize = 16.sp,
-        )
-    }
-}
-
-@Composable
-fun RivalSideBoard(
-    modifier: Modifier = Modifier,
     onPlaced: (Offset) -> Unit,
 ) {
-    Box(modifier = modifier.fillMaxSize()) {
+    Box(modifier = modifier) {
         Image(
             painter = painterResource(id = R.drawable.payaso_2),
             contentDescription = null,
             contentScale = ContentScale.FillBounds,
             modifier = Modifier.matchParentSize(),
         )
-        PlayCard(
-            card = R.drawable.clubs_ace__dark_no,
+        Column(
             modifier =
-                Modifier.padding(16.dp).size(96.dp).align(Alignment.TopStart).alpha(0f).onGloballyPositioned {
-                    onPlaced(it.positionOnScreen())
-                },
+                Modifier
+                    .padding(16.dp)
+                    .fillMaxSize()
+                    .align(Alignment.TopStart),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            PlayCard(
+                card = R.drawable.clubs_ace,
+                modifier =
+                    Modifier
+                        .padding(16.dp)
+                        .size(96.dp)
+                        .alpha(1f)
+                        .onGloballyPositioned {
+                            onPlaced(it.positionOnScreen())
+                        },
+            )
+            Text(text = "Crimpy", color = Color.Red, fontSize = 32.sp)
+        }
+        Text(
+            text = "$points",
+            modifier = Modifier.padding(16.dp).align(Alignment.TopEnd),
+            color = Color.Red,
+            fontSize = 56.sp,
         )
     }
 }

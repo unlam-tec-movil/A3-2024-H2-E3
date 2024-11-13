@@ -15,68 +15,53 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.layout.onPlaced
 import androidx.compose.ui.layout.positionOnScreen
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.zIndex
 import ar.edu.unlam.mobile.scaffolding.R
 import ar.edu.unlam.mobile.scaffolding.ui.components.PlayCard
 
 @Composable
 fun PlayerSideBoard(
     modifier: Modifier = Modifier,
+    userImage: ImageBitmap,
     userName: String,
-    image: ImageBitmap,
     points: Int = 0,
+    onPlaced: (Offset) -> Unit,
 ) {
-    Box(modifier = modifier) {
+    Box(modifier = modifier.fillMaxSize()) {
         Image(
-            bitmap = image,
+            bitmap = userImage,
             contentDescription = null,
-            modifier =
-                Modifier
-                    .fillMaxSize()
-                    .zIndex(1f),
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.matchParentSize(),
         )
         Text(
             text = userName,
             color = Color.Black,
-            fontSize = 24.sp,
+            fontSize = 32.sp,
             modifier =
-                Modifier.align(
+                Modifier.padding(16.dp).align(
                     Alignment.TopStart,
                 ),
         )
         Text(
             text = "$points",
-            modifier = Modifier.align(Alignment.TopEnd),
-            color = Color.Black,
-            fontSize = 16.sp,
-        )
-        PlayCard(modifier = Modifier.align(Alignment.BottomEnd), 0)
-    }
-}
-
-@Composable
-fun PlayerSideBoard(
-    modifier: Modifier = Modifier,
-    imageBitmap: ImageBitmap,
-    onPlaced: (Offset) -> Unit,
-) {
-    Box(modifier = modifier.fillMaxSize()) {
-        Image(
-            bitmap = imageBitmap,
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier.matchParentSize(),
+            modifier = Modifier.padding(16.dp).align(Alignment.TopEnd),
+            color = Color.White,
+            fontSize = 56.sp,
         )
         PlayCard(
-            card = R.drawable.clubs_ace__dark_no,
+            card = R.drawable.clubs_ace,
             modifier =
-                Modifier.padding(16.dp).size(96.dp).align(Alignment.BottomEnd).alpha(0f).onGloballyPositioned {
-                    onPlaced(it.positionOnScreen())
-                },
+                Modifier
+                    .padding(16.dp)
+                    .size(96.dp)
+                    .align(Alignment.BottomEnd)
+                    .alpha(0f)
+                    .onGloballyPositioned {
+                        onPlaced(it.positionOnScreen())
+                    },
         )
     }
 }

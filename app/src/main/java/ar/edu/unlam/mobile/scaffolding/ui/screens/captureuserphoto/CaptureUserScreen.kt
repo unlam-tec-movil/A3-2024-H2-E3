@@ -1,4 +1,4 @@
-package ar.edu.unlam.mobile.scaffolding.ui.screens
+package ar.edu.unlam.mobile.scaffolding.ui.screens.captureuserphoto
 
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -49,7 +49,6 @@ fun CaptureUserScreen(
                 delay(2000) // Temporary
                 navigateToGame()
             }
-            // Play animation to next screen
         }
 
         is CaptureUserPhotoUiState.Error -> {

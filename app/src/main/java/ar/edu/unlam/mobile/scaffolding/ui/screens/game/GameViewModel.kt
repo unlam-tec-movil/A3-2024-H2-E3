@@ -1,9 +1,10 @@
-package ar.edu.unlam.mobile.scaffolding.ui.screens
+package ar.edu.unlam.mobile.scaffolding.ui.screens.game
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import ar.edu.unlam.mobile.scaffolding.domain.models.Dice
 import ar.edu.unlam.mobile.scaffolding.domain.models.PlayCard
+import ar.edu.unlam.mobile.scaffolding.domain.usecases.CaptureUserPhotoUseCases
 import ar.edu.unlam.mobile.scaffolding.domain.usecases.GameUseCases
 import ar.edu.unlam.mobile.scaffolding.domain.usecases.PlayCardUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,6 +21,8 @@ data class GameState(
     val throwButtonEnabled: Boolean = true,
     val playerCard: PlayCard? = null,
     val rivalCard: PlayCard? = null,
+    val userImage: ByteArray? = null,
+    val drawCard: Boolean = false,
 )
 
 @HiltViewModel
@@ -28,9 +31,22 @@ class GameViewModel
     constructor(
         private val gameUseCases: GameUseCases,
         private val playCardUseCases: PlayCardUseCases,
+        private val getUserPhotoUseCases: CaptureUserPhotoUseCases,
     ) : ViewModel() {
         private val _state = MutableStateFlow(GameState())
         val state = _state.asStateFlow()
+
+        init {
+            viewModelScope.launch {
+                getUserPhotoUseCases.getPhoto()?.photo.let { photo ->
+                    _state.update {
+                        it.copy(
+                            userImage = photo,
+                        )
+                    }
+                }
+            }
+        }
 
         fun throwDices() {
             viewModelScope.launch(Dispatchers.IO) {

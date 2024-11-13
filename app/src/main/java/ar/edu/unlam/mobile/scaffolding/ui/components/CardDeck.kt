@@ -9,6 +9,7 @@ import androidx.compose.ui.res.painterResource
 import ar.edu.unlam.mobile.scaffolding.R
 import ar.edu.unlam.mobile.scaffolding.domain.models.CardType
 import ar.edu.unlam.mobile.scaffolding.domain.models.CardValue
+import ar.edu.unlam.mobile.scaffolding.domain.models.toNumberName
 import java.util.Locale
 
 @Composable
@@ -37,7 +38,7 @@ fun rememberPlayCard(
     cardType: CardType,
 ): Int {
     val resourceName =
-        cardType.name.lowercase(Locale.getDefault()) + "_" + cardValue.name.lowercase(Locale.getDefault())
+        cardType.name.lowercase(Locale.getDefault()) + "_" + cardValue.toNumberName()
     val resId =
         LocalContext.current.resources.getIdentifier(
             resourceName,

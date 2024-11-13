@@ -236,7 +236,7 @@ class GameViewModel
             }
         }
 
-        private fun nextRound() {
+        fun nextRound() {
             if (_state.value.currentRound == 10) {
                 _state.update { currentState ->
                     currentState.copy(currentRound = currentState.currentRound)
@@ -248,7 +248,7 @@ class GameViewModel
             }
         }
 
-        private suspend fun switchTurn() {
+        suspend fun switchTurn() {
             if (_state.value.gameOver) return
 
             println("hola no fue game Over")
@@ -268,7 +268,7 @@ class GameViewModel
             }
         }
 
-        private fun checkIfIsGameOver() {
+        fun checkIfIsGameOver() {
             if (_state.value.currentRound == _state.value.maxRounds) {
                 if (_state.value.playerPoints > _state.value.cpuPoints
                 ) {
@@ -288,6 +288,8 @@ class GameViewModel
                 }
             }
         }
+
+        fun getWinner(): String? = state.value.winner
 
         private fun enableThrowButton(value: Boolean) {
             _state.update { it.copy(throwButtonEnabled = value) }

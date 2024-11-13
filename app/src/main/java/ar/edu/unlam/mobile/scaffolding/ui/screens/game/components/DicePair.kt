@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import ar.edu.unlam.mobile.scaffolding.domain.models.Dice
 import ar.edu.unlam.mobile.scaffolding.ui.components.Dice
@@ -18,11 +19,11 @@ fun DicePair(
     Row(modifier = Modifier.wrapContentSize(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         Dice(
             dice = diceOne,
-            modifier = modifier,
+            modifier = modifier.testTag("Dice1"),
         )
         Dice(
             dice = diceTwo,
-            modifier = modifier,
+            modifier = modifier.testTag("Dice2"),
         )
     }
 }

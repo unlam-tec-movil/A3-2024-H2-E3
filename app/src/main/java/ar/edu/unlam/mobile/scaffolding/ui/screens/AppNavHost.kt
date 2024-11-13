@@ -2,8 +2,6 @@ package ar.edu.unlam.mobile.scaffolding.ui.screens
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -24,7 +22,7 @@ fun AppNavHost() {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = HACK_MESSAGE_ROUTE,
+        startDestination = GAME_ROUTE,
     ) {
         composable(HACK_MESSAGE_ROUTE) {
             HackMessagesScreen(

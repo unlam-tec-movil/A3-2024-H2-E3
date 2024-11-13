@@ -46,7 +46,7 @@ fun CaptureUserScreen(
                 contentScale = ContentScale.Crop,
             )
             LaunchedEffect(key1 = true) {
-                delay(2000) // Temporary
+                delay(2000)
                 navigateToGame()
             }
         }

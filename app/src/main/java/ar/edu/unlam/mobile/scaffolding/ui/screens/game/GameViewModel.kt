@@ -32,7 +32,7 @@ data class GameState(
     val thirdDiceEnabled: Boolean = false,
     val gameOver: Boolean = false,
     val winner: String? = null,
-    val isPlayerTurn: Boolean = true,
+    val isPlayerTurn: Boolean = false,
     val isDrawingCard: Boolean = false,
     val rivalDiceResult: Int = 0,
 )
@@ -50,6 +50,7 @@ class GameViewModel
 
         fun startGame(maxRounds: Int) {
             viewModelScope.launch {
+                _state.value = GameState(maxRounds = maxRounds)
                 getUserPhotoUseCases.getPhoto()?.photo.let { photo ->
                     _state.update {
                         it.copy(
@@ -57,29 +58,25 @@ class GameViewModel
                         )
                     }
                 }
-                _state.value = GameState(maxRounds = maxRounds)
-                playerDrawCard() // Empezar tomando carta
+                playerDrawCard()
             }
         }
 
-        fun playerDrawCard() {
-            viewModelScope.launch {
-                val playerCard = playCardUseCases.drawCard()
-                _state.update { currentState ->
-                    currentState.copy(
-                        isPlayerTurn = true,
-                        isDrawingCard = true,
-                        playerCard = playerCard,
-                        diceThrowResult = 0,
-                    )
-                }
+        private fun playerDrawCard() {
+            val playerCard = playCardUseCases.drawCard()
+            _state.update { currentState ->
+                currentState.copy(
+                    isPlayerTurn = true,
+                    isDrawingCard = true,
+                    playerCard = playerCard,
+                    diceThrowResult = 0,
+                )
             }
         }
 
         fun playerThrowDices() {
             viewModelScope.launch(Dispatchers.IO) {
                 enableThrowButton(false)
-
                 gameUseCases.getRandomDicePair().collect { dicePair ->
                     val diceThrowResult = gameUseCases.getDiceThrowResult(dicePair)
                     _state.update { currentState ->
@@ -162,7 +159,6 @@ class GameViewModel
         private suspend fun cpuTurn() {
             if (_state.value.gameOver) return
 
-            println("holaCPU es el turno de la cpu")
             delay(2000)
 
             viewModelScope.launch {
@@ -279,7 +275,7 @@ class GameViewModel
                 println("hola el estado luego es isplayerturn: ${_state.value.isPlayerTurn}")
                 cpuTurn()
             } else {
-                // playerDrawCard()
+                playerDrawCard()
             }
         }
 

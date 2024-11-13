@@ -24,6 +24,8 @@ fun GameBoard(
     modifier: Modifier = Modifier,
     roundNumber: () -> Int = { 1 },
     userImage: ImageBitmap,
+    userPoints: Int,
+    rivalPoints: Int,
     deckCoordinates: (Offset) -> Unit,
     playerCardCoordinates: (Offset) -> Unit,
     rivalCardCoordinates: (Offset) -> Unit,
@@ -32,13 +34,13 @@ fun GameBoard(
         Column(modifier = Modifier.matchParentSize()) {
             RivalSideBoard(
                 modifier = Modifier.weight(1f),
-                points = 0,
+                points = rivalPoints,
                 onPlaced = { rivalCardCoordinates(it) },
             )
             PlayerSideBoard(
                 modifier = Modifier.weight(1f),
-                userName = "",
-                points = 0,
+                userName = "Jugador",
+                points = userPoints,
                 userImage = userImage,
                 onPlaced = { playerCardCoordinates(it) },
             )

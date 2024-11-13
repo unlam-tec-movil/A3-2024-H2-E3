@@ -16,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
@@ -27,8 +28,8 @@ import ar.edu.unlam.mobile.scaffolding.ui.theme.CardMessage
 
 @Composable
 fun StatusMessage(
-    turnText: String,
-    infoText: String,
+    isPlayerTurn: Boolean,
+    statusMesssage: String
 ) {
     Card(
         colors =
@@ -46,7 +47,9 @@ fun StatusMessage(
                 ).clip(RoundedCornerShape(25.dp))
                 .background(
                     color = CardMessage,
-                ).fillMaxSize(),
+                )
+                .alpha(0.8f)
+                .fillMaxSize(),
         shape = RoundedCornerShape(25.dp),
     ) {
         Column(
@@ -58,14 +61,14 @@ fun StatusMessage(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
-                text = turnText,
+                text = "Turno de ${if (isPlayerTurn)"Jugador" else "Cpu"}",
                 textAlign = TextAlign.Center,
                 color = Color.Red,
                 fontSize = 25.sp,
             )
             Spacer(modifier = Modifier.padding(10.dp))
             Text(
-                text = infoText,
+                text = statusMesssage,
                 textAlign = TextAlign.Center,
                 color = Color.White,
                 fontSize = 25.sp,
@@ -74,10 +77,4 @@ fun StatusMessage(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun StatusMessagePreview() {
-    val turnText = "Turno de Crimpy"
-    val infoText = "Tus dados deberán sumar 8"
-    StatusMessage(turnText, infoText)
-}
+

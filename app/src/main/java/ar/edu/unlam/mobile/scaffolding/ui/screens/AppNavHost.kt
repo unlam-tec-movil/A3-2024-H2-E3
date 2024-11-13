@@ -3,11 +3,12 @@ package ar.edu.unlam.mobile.scaffolding.ui.screens
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.navigation.NavOptions
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import ar.edu.unlam.mobile.scaffolding.ui.screens.captureuserphoto.CaptureUserFlowScreen
-import ar.edu.unlam.mobile.scaffolding.ui.screens.game.components.GameScreenPreview
+import ar.edu.unlam.mobile.scaffolding.ui.screens.game.components.GameScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.hackmessage.HackMessagesScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.location.LocationScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.menu.MenuScreen
@@ -22,7 +23,7 @@ fun AppNavHost() {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = GAME_ROUTE,
+        startDestination = HACK_MESSAGE_ROUTE,
     ) {
         composable(HACK_MESSAGE_ROUTE) {
             HackMessagesScreen(
@@ -44,8 +45,18 @@ fun AppNavHost() {
             )
         }
         composable(GAME_ROUTE) {
-            GameScreenPreview()
-            // GameScreen(navController = navController)
+            GameScreen {
+                navController.navigate(
+                    it,
+                    navOptions =
+                        NavOptions
+                            .Builder()
+                            .setPopUpTo(
+                                MENU_ROUTE,
+                                inclusive = false,
+                            ).build(),
+                )
+            }
         }
         composable(MAP_ROUTE) {
             LocationScreen(navController = navController)

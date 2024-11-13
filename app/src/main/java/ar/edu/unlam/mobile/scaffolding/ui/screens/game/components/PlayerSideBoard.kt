@@ -38,7 +38,7 @@ fun PlayerSideBoard(
         )
         Text(
             text = userName,
-            color = Color.Black,
+            color = Color.White,
             fontSize = 32.sp,
             modifier =
                 Modifier.padding(16.dp).align(

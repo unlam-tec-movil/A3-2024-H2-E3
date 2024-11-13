@@ -19,26 +19,26 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ar.edu.unlam.mobile.scaffolding.R
+import ar.edu.unlam.mobile.scaffolding.ui.components.StatusMessage
 import ar.edu.unlam.mobile.scaffolding.ui.components.getCardImage
 import ar.edu.unlam.mobile.scaffolding.ui.screens.game.GameViewModel
+import ar.edu.unlam.mobile.scaffolding.ui.utils.Routes
 import ar.edu.unlam.mobile.scaffolding.ui.utils.toImageBitmap
 import kotlinx.coroutines.delay
 
 @Composable
-fun GameScreenPreview(
+fun GameScreen(
     viewModel: GameViewModel = hiltViewModel(),
-    onGameEnd: () -> Unit = {},
+    onGameEnd: (String) -> Unit = {},
 ) {
     var playerCardCoordinates by remember { mutableStateOf(Offset.Zero) }
     var rivalCardCoordinates by remember { mutableStateOf(Offset.Zero) }
@@ -67,21 +67,33 @@ fun GameScreenPreview(
             playerCardCoordinates = { playerCardCoordinates = it },
             rivalCardCoordinates = { rivalCardCoordinates = it },
         )
-        Box(modifier = Modifier.padding(16.dp).align(Alignment.BottomStart).fillMaxWidth()) {
+        Box(
+            modifier =
+                Modifier
+                    .padding(16.dp)
+                    .align(Alignment.BottomStart)
+                    .fillMaxWidth(),
+        ) {
             PlayingCardWithAnimation(
                 modifier = Modifier.align(Alignment.BottomStart),
                 card = getCardImage(state.rivalCard),
                 targetValueX = with(density) { rivalCardCoordinates.x.toDp().value - deckCoordinates.x.toDp().value },
                 targetValueY = with(density) { rivalCardCoordinates.y.toDp().value - deckCoordinates.y.toDp().value },
-                triggerAnim = !state.isPlayerTurn && state.isDrawingCard && state.rivalCard != null,
+                triggerAnim = !state.isPlayerTurn && state.isDrawingCard,
             )
         }
-        Box(modifier = Modifier.padding(16.dp).align(Alignment.BottomStart).fillMaxWidth()) {
+        Box(
+            modifier =
+                Modifier
+                    .padding(16.dp)
+                    .align(Alignment.BottomStart)
+                    .fillMaxWidth(),
+        ) {
             PlayingCardWithAnimation(
                 card = getCardImage(state.playerCard),
                 targetValueX = with(density) { playerCardCoordinates.x.toDp().value - deckCoordinates.x.toDp().value },
                 targetValueY = with(density) { playerCardCoordinates.y.toDp().value - deckCoordinates.y.toDp().value },
-                triggerAnim = state.isPlayerTurn && state.isDrawingCard && state.playerCard != null,
+                triggerAnim = state.isPlayerTurn && state.isDrawingCard,
             )
         }
         Column(
@@ -104,15 +116,38 @@ fun GameScreenPreview(
                 Text("Tirar dados")
             }
         }
+        if (state.showStatusMessage) {
+            Box(
+                modifier =
+                    Modifier
+                        .wrapContentSize()
+                        .align(Alignment.Center),
+            ) {
+                StatusMessage(
+                    isPlayerTurn = state.isPlayerTurn,
+                    statusMesssage = state.statusMessage,
+                )
+            }
+        }
         if (state.gameOver) {
-            Text(
-                text = "Ganador: ${state.winner}",
-                fontSize = 24.sp,
-                color = Color.Green,
-            )
+            Box(
+                modifier =
+                    Modifier
+                        .wrapContentSize()
+                        .align(Alignment.Center),
+            ) {
+                StatusMessage(
+                    isPlayerTurn = state.isPlayerTurn,
+                    statusMesssage = "Fin del juego, el ganador es: ${state.winner}",
+                )
+            }
             LaunchedEffect(Unit) {
                 delay(2000)
-                onGameEnd()
+                if (state.winner == "Jugador") {
+                    onGameEnd(Routes.MENU_ROUTE)
+                } else {
+                    onGameEnd(Routes.MAP_ROUTE)
+                }
             }
         }
     }

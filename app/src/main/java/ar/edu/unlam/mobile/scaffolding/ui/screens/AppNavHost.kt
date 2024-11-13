@@ -11,6 +11,7 @@ fun AppNavHost() {
     NavHost(
         navController = navController,
         startDestination = "hack_messages_screen",
+        // startDestination = "captureUserPhoto" para chequear más rápido la lógica
     ) {
         composable("hack_messages_screen") {
             HackMessagesScreen(

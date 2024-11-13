@@ -31,7 +31,8 @@ fun PlayCard(
 }
 
 @Composable
-fun getCardImage(card: PlayCard): Int {
+fun getCardImage(card: PlayCard?): Int {
+    if (card == null) return R.drawable.box_white_on
     val resourceName =
         card.type.name.lowercase(Locale.getDefault()) + "_" + card.value.toNumberName()
     val resId =

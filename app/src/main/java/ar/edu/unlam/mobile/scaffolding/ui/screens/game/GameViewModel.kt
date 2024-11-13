@@ -63,6 +63,7 @@ class GameViewModel
         }
 
         private fun playerDrawCard() {
+            _state.update { st -> st.copy(playerCard = null) }
             val playerCard = playCardUseCases.drawCard()
             _state.update { currentState ->
                 currentState.copy(
@@ -162,7 +163,9 @@ class GameViewModel
             delay(2000)
 
             viewModelScope.launch {
+                _state.update { st -> st.copy(rivalCard = null) }
                 val cpuCard = playCardUseCases.drawCard() // La CPU saca una carta
+
                 println("holaCPU el valor de la carta de la cpu es ${cpuCard.value}")
                 _state.update { currentState ->
                     currentState.copy(rivalCard = cpuCard)
@@ -173,7 +176,7 @@ class GameViewModel
                     val diceThrowResult = gameUseCases.getDiceThrowResult(dicePair)
                     println("holaCPU el valor de lo dados de la cpu es $diceThrowResult")
                     _state.update { currentState ->
-                        currentState.copy(rivalDiceResult = diceThrowResult)
+                        currentState.copy(rivalDiceResult = diceThrowResult, dicePair = dicePair)
                     }
 
                     var cpuPoints: Int? = null
@@ -261,21 +264,23 @@ class GameViewModel
 
         private suspend fun switchTurn() {
             if (_state.value.gameOver) return
+            viewModelScope.launch {
+                println("hola no fue game Over")
 
-            println("hola no fue game Over")
+                println("hola el primer estado es isplayerturn: ${_state.value.isPlayerTurn}")
+                delay(2000)
 
-            println("hola el primer estado es isplayerturn: ${_state.value.isPlayerTurn}")
-
-            _state.update { currentState ->
-                currentState.copy(isPlayerTurn = !currentState.isPlayerTurn)
-            }
-            println("hola el estado luego es isplayerturn: ${_state.value.isPlayerTurn}")
-
-            if (!_state.value.isPlayerTurn) {
+                _state.update { currentState ->
+                    currentState.copy(isPlayerTurn = !currentState.isPlayerTurn)
+                }
                 println("hola el estado luego es isplayerturn: ${_state.value.isPlayerTurn}")
-                cpuTurn()
-            } else {
-                playerDrawCard()
+
+                if (!_state.value.isPlayerTurn) {
+                    println("hola el estado luego es isplayerturn: ${_state.value.isPlayerTurn}")
+                    cpuTurn()
+                } else {
+                    // playerDrawCard()
+                }
             }
         }
 

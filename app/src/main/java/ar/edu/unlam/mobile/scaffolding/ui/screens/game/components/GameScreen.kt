@@ -30,7 +30,6 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ar.edu.unlam.mobile.scaffolding.R
-import ar.edu.unlam.mobile.scaffolding.domain.models.PlayCard
 import ar.edu.unlam.mobile.scaffolding.ui.components.getCardImage
 import ar.edu.unlam.mobile.scaffolding.ui.screens.game.GameViewModel
 import ar.edu.unlam.mobile.scaffolding.ui.utils.toImageBitmap
@@ -71,20 +70,18 @@ fun GameScreenPreview(
         Box(modifier = Modifier.padding(16.dp).align(Alignment.BottomStart).fillMaxWidth()) {
             PlayingCardWithAnimation(
                 modifier = Modifier.align(Alignment.BottomStart),
-                card = getCardImage(state.rivalCard ?: PlayCard()),
+                card = getCardImage(state.rivalCard),
                 targetValueX = with(density) { rivalCardCoordinates.x.toDp().value - deckCoordinates.x.toDp().value },
                 targetValueY = with(density) { rivalCardCoordinates.y.toDp().value - deckCoordinates.y.toDp().value },
-                triggerAnim = !state.isPlayerTurn && state.isDrawingCard,
-                deckCoordinates = deckCoordinates,
+                triggerAnim = !state.isPlayerTurn && state.isDrawingCard && state.rivalCard != null,
             )
         }
         Box(modifier = Modifier.padding(16.dp).align(Alignment.BottomStart).fillMaxWidth()) {
             PlayingCardWithAnimation(
-                card = getCardImage(state.playerCard ?: PlayCard()),
+                card = getCardImage(state.playerCard),
                 targetValueX = with(density) { playerCardCoordinates.x.toDp().value - deckCoordinates.x.toDp().value },
                 targetValueY = with(density) { playerCardCoordinates.y.toDp().value - deckCoordinates.y.toDp().value },
-                triggerAnim = state.isPlayerTurn && state.isDrawingCard,
-                deckCoordinates = deckCoordinates,
+                triggerAnim = state.isPlayerTurn && state.isDrawingCard && state.playerCard != null,
             )
         }
         Column(

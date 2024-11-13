@@ -24,7 +24,6 @@ fun PlayingCardWithAnimation(
     targetValueX: Float,
     targetValueY: Float,
     triggerAnim: Boolean,
-    deckCoordinates: Offset,
 ) {
     val transition =
         updateTransition(targetState = triggerAnim, label = "PlayingCardWithAnimation Transition")

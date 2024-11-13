@@ -77,7 +77,7 @@ class GameViewModel
             }
         }
 
-        private suspend fun playerDrawCard() {
+        suspend fun playerDrawCard() {
             val playerCard = playCardUseCases.drawCard()
             _state.update { currentState ->
                 currentState.copy(
@@ -228,7 +228,7 @@ class GameViewModel
             }
         }
 
-        private fun nextRound() {
+        fun nextRound() {
             if (_state.value.currentRound == 10) {
                 _state.update { currentState ->
                     currentState.copy(currentRound = currentState.currentRound)
@@ -240,7 +240,7 @@ class GameViewModel
             }
         }
 
-        private suspend fun switchTurn() {
+        suspend fun switchTurn() {
             if (_state.value.gameOver) return
             if (_state.value.isPlayerTurn) {
                 cpuTurn()
@@ -249,7 +249,7 @@ class GameViewModel
             }
         }
 
-        private fun checkIfIsGameOver() {
+        fun checkIfIsGameOver() {
             if (_state.value.currentRound == _state.value.maxRounds) {
                 if (_state.value.playerPoints > _state.value.cpuPoints
                 ) {

@@ -32,20 +32,11 @@ class GameServiceTest {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `getRandomDicePairForCPU returns a valid pair of dice`() =
+    fun `getRandomDice returns a valid dice`() =
         runTest {
-            val dicePair = gameService.getRandomDicePairForCPU().first()
+            val dice = gameService.getRandomDice(false).first()
             advanceUntilIdle()
-            assertNotNull(dicePair)
-            assertTrue(dicePair.first in Dice.entries.toTypedArray())
-            assertTrue(dicePair.second in Dice.entries.toTypedArray())
+            assertNotNull(dice)
+            assertTrue(dice in Dice.entries.toTypedArray())
         }
-
-    @Test
-    fun `getDiceThrowResult returns the sum of dice values`() {
-        val dicePair = Pair(Dice.THREE, Dice.FOUR)
-        val result = gameService.getDiceThrowResult(dicePair)
-
-        assertEquals(7, result)
-    }
 }

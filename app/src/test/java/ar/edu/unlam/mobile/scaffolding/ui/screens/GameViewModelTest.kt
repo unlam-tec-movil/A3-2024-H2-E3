@@ -64,15 +64,15 @@ class GameViewModelTest {
     @Test
     fun `when playerThrowDices is called, dice results should be updated`() =
         runTest {
-            val dicePair = Pair(Dice.ONE, Dice.ONE)
-            gameUseCasesFake.emitDicePair(dicePair)
+            val dice = Dice.ONE
+            gameUseCasesFake.emitDicePair(dice)
 
             viewModel.playerThrowDices()
             advanceUntilIdle()
 
-            val dicePairTwo = viewModel.state.value.dicePair
+            val dicePairTwo = viewModel.state.value.dice
 
-            assertEquals(dicePair, dicePairTwo)
+            assertEquals(dice, dicePairTwo)
         }
 
     @Test

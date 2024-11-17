@@ -22,12 +22,14 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ar.edu.unlam.mobile.scaffolding.R
+import ar.edu.unlam.mobile.scaffolding.ui.components.Dice
 import ar.edu.unlam.mobile.scaffolding.ui.components.StatusMessage
 import ar.edu.unlam.mobile.scaffolding.ui.components.getCardImage
 import ar.edu.unlam.mobile.scaffolding.ui.screens.game.GameViewModel
@@ -104,10 +106,9 @@ fun GameScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            DicePair(
-                diceOne = state.dicePair.first,
-                diceTwo = state.dicePair.second,
-                modifier = Modifier.size(80.dp),
+            Dice(
+                dice = state.dice,
+                modifier = Modifier.testTag("Dice").size(80.dp),
             )
             Button(
                 onClick = viewModel::playerThrowDices,

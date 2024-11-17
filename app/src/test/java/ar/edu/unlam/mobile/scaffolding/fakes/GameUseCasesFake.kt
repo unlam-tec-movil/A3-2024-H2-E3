@@ -6,15 +6,11 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 
 class GameUseCasesFake : GameUseCases {
-    private val diceFlow = MutableSharedFlow<Pair<Dice, Dice>>()
+    private val diceFlow = MutableSharedFlow<Dice>()
 
-    override fun getRandomDicePair(): Flow<Pair<Dice, Dice>> = diceFlow
-
-    override fun getDiceThrowResult(dicePair: Pair<Dice, Dice>): Int = dicePair.first.value + dicePair.second.value
-
-    override fun getRandomDicePairForCPU(): Flow<Pair<Dice, Dice>> = diceFlow
-
-    fun emitDicePair(dicePair: Pair<Dice, Dice>) {
-        diceFlow.tryEmit(dicePair)
+    fun emitDicePair(dice: Dice) {
+        diceFlow.tryEmit(dice)
     }
+
+    override fun getRandomDice(useShake: Boolean): Flow<Dice> = diceFlow
 }

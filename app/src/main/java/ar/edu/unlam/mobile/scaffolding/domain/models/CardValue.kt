@@ -9,13 +9,6 @@ enum class CardValue(
     FOUR(4),
     FIVE(5),
     SIX(6),
-    SEVEN(7),
-    EIGHT(8),
-    NINE(9),
-    TEN(10),
-    JACK(11),
-    QUEEN(12),
-    KING(13),
 }
 
 fun CardValue.toNumberName(): String =
@@ -26,11 +19,4 @@ fun CardValue.toNumberName(): String =
         CardValue.FOUR -> "4"
         CardValue.FIVE -> "5"
         CardValue.SIX -> "6"
-        CardValue.SEVEN -> "7"
-        CardValue.EIGHT -> "8"
-        CardValue.NINE -> "9"
-        CardValue.TEN -> "10"
-        CardValue.JACK -> "jack"
-        CardValue.QUEEN -> "qween"
-        CardValue.KING -> "king"
     }

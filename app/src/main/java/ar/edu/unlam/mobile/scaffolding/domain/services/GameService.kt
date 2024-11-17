@@ -22,7 +22,6 @@ class GameService
     constructor(
         @ApplicationContext context: Context,
     ) : GameUseCases {
-        private val diceList = listOf(Dice.ONE, Dice.TWO, Dice.THREE, Dice.FOUR, Dice.FIVE, Dice.SIX)
         private val sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
         private val accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
         private var shakeDetected = false
@@ -31,26 +30,18 @@ class GameService
         private var acceleration = 0f
         private val targetAcceleration = 40f
 
-        override fun getRandomDicePair(): Flow<Pair<Dice, Dice>> =
+        override fun getRandomDice(useShake: Boolean): Flow<Dice> =
             flow {
-                val firstDice = diceList.random()
-                val secondDice = diceList.random()
-                throwDices()
-                while (!shakeDetected) {
-                    // Esperar a que se detecte el agitado
+                val dice = Dice.entries.random()
+                if (useShake) {
+                    throwDices()
+                    while (!shakeDetected) {
+                        // Esperar a que se detecte el agitado
+                    }
+                    shakeDetected = false
                 }
-                shakeDetected = false
-                emit(Pair(firstDice, secondDice))
+                emit(dice)
             }.flowOn(Dispatchers.IO)
-
-        override fun getRandomDicePairForCPU(): Flow<Pair<Dice, Dice>> =
-            flow {
-                val dice1 = diceList.random()
-                val dice2 = diceList.random()
-                emit(Pair(dice1, dice2)) // Sin esperar el agitado
-            }.flowOn(Dispatchers.IO)
-
-        override fun getDiceThrowResult(dicePair: Pair<Dice, Dice>): Int = dicePair.first.value + dicePair.second.value
 
         private fun throwDices() {
             sensorManager.registerListener(

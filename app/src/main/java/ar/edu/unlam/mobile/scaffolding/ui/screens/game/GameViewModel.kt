@@ -2,7 +2,6 @@ package ar.edu.unlam.mobile.scaffolding.ui.screens.game
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import ar.edu.unlam.mobile.scaffolding.domain.models.CardValue
 import ar.edu.unlam.mobile.scaffolding.domain.models.Dice
 import ar.edu.unlam.mobile.scaffolding.domain.models.PlayCard
 import ar.edu.unlam.mobile.scaffolding.domain.usecases.CaptureUserPhotoUseCases
@@ -17,7 +16,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class GameState(
-    val dicePair: Pair<Dice, Dice> = Pair(Dice.ONE, Dice.ONE),
+    val dice: Dice = Dice.ONE,
     val diceThrowResult: Int = 0,
     val throwButtonEnabled: Boolean = true,
     val playerCard: PlayCard? = null,
@@ -87,61 +86,32 @@ class GameViewModel
                     isDrawingCard = true,
                 )
             }
-            showStatusMessage("Tus dados deberan sumar ${playerCard.value.numericValue}")
+            showStatusMessage("Tu dado deberá dar ${playerCard.value.numericValue}")
             enableThrowButton(true)
         }
 
         fun playerThrowDices() {
             viewModelScope.launch {
                 enableThrowButton(false)
-                gameUseCases.getRandomDicePair().collect { dicePair ->
-                    val diceThrowResult = gameUseCases.getDiceThrowResult(dicePair)
+                gameUseCases.getRandomDice(true).collect { dice ->
                     _state.update { currentState ->
                         currentState.copy(
-                            dicePair = dicePair,
-                            diceThrowResult = diceThrowResult,
+                            dice = dice,
+                            diceThrowResult = dice.value,
                         )
                     }
                     delay(2000)
                     var playerPoints: Int? = null
 
-                    when (_state.value.playerCard?.value) {
-                        CardValue.ACE -> {
-                            playerPoints =
-                                if (dicePair.first.value == CardValue.ACE.numericValue
-                                ) {
-                                    showStatusMessage("Coincide suma puntos")
-                                    _state.value.playerPoints + 1
-                                } else {
-                                    showStatusMessage("No Coincide, no suma puntos")
-                                    _state.value.playerPoints
-                                }
-                        }
-
-                        CardValue.KING -> {
-                            playerPoints =
-                                if (dicePair.first.value + diceThrowResult == CardValue.KING.numericValue
-                                ) {
-                                    showStatusMessage("Coincide suma puntos")
-                                    _state.value.playerPoints + 1
-                                } else {
-                                    showStatusMessage("No Coincide, no suma puntos")
-                                    _state.value.playerPoints
-                                }
-                        }
-
-                        else -> {
-                            if (_state.value.playerCard
-                                    ?.value
-                                    ?.numericValue == diceThrowResult
-                            ) {
-                                showStatusMessage("Coincide suma puntos")
-                                playerPoints = _state.value.playerPoints + 1
-                            } else {
-                                showStatusMessage("No Coincide, no suma puntos")
-                                _state.value.playerPoints
-                            }
-                        }
+                    if (_state.value.playerCard
+                            ?.value
+                            ?.numericValue == dice.value
+                    ) {
+                        showStatusMessage("Coincide suma puntos")
+                        playerPoints = _state.value.playerPoints + 1
+                    } else {
+                        showStatusMessage("No Coincide, no suma puntos")
+                        _state.value.playerPoints
                     }
 
                     playerPoints?.let {
@@ -165,52 +135,25 @@ class GameViewModel
                 _state.update { currentState ->
                     currentState.copy(rivalCard = cpuCard, isPlayerTurn = false)
                 }
-                showStatusMessage("Tus dados deberan sumar ${cpuCard.value.numericValue}")
-                gameUseCases.getRandomDicePairForCPU().collect { dicePair ->
+                showStatusMessage("Tu dado deberá dar ${cpuCard.value.numericValue}")
+                gameUseCases.getRandomDice(false).collect { dice ->
                     delay(1000)
-                    val diceThrowResult = gameUseCases.getDiceThrowResult(dicePair)
                     _state.update { currentState ->
-                        currentState.copy(rivalDiceResult = diceThrowResult, dicePair = dicePair)
+                        currentState.copy(rivalDiceResult = dice.value, dice = dice)
                     }
                     delay(2000)
 
                     var cpuPoints: Int? = null
 
-                    when (_state.value.rivalCard?.value) {
-                        CardValue.ACE -> {
-                            if (dicePair.first.value == CardValue.ACE.numericValue
-                            ) {
-                                showStatusMessage("Coincide suma puntos")
-                                cpuPoints = _state.value.cpuPoints + 1
-                            } else {
-                                showStatusMessage("No Coincide, no suma puntos")
-                                cpuPoints = _state.value.cpuPoints
-                            }
-                        }
-
-                        CardValue.KING -> {
-                            if (dicePair.first.value + diceThrowResult == CardValue.KING.numericValue
-                            ) {
-                                showStatusMessage("Coincide suma puntos")
-                                cpuPoints = _state.value.cpuPoints + 1
-                            } else {
-                                showStatusMessage("No Coincide, no suma puntos")
-                                cpuPoints = _state.value.cpuPoints
-                            }
-                        }
-
-                        else -> {
-                            if (_state.value.rivalCard
-                                    ?.value
-                                    ?.numericValue == diceThrowResult
-                            ) {
-                                showStatusMessage("Coincide suma puntos")
-                                cpuPoints = _state.value.cpuPoints + 1
-                            } else {
-                                showStatusMessage("No Coincide, no suma puntos")
-                                _state.value.cpuPoints
-                            }
-                        }
+                    if (_state.value.rivalCard
+                            ?.value
+                            ?.numericValue == dice.value
+                    ) {
+                        showStatusMessage("Coincide suma puntos")
+                        cpuPoints = _state.value.cpuPoints + 1
+                    } else {
+                        showStatusMessage("No Coincide, no suma puntos")
+                        _state.value.cpuPoints
                     }
 
                     // Actualizar estado

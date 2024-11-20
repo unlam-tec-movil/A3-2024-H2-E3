@@ -4,7 +4,6 @@ import ar.edu.unlam.mobile.scaffolding.domain.models.CardType
 import ar.edu.unlam.mobile.scaffolding.domain.models.CardValue
 import ar.edu.unlam.mobile.scaffolding.domain.models.Dice
 import ar.edu.unlam.mobile.scaffolding.domain.models.PlayCard
-import ar.edu.unlam.mobile.scaffolding.domain.usecases.ShowMapUseCase
 import ar.edu.unlam.mobile.scaffolding.fakes.CaptureUserPhotoUseCasesFake
 import ar.edu.unlam.mobile.scaffolding.fakes.GameUseCasesFake
 import ar.edu.unlam.mobile.scaffolding.fakes.PlayCardUseCasesFake
@@ -28,14 +27,13 @@ class GameViewModelTest {
     private lateinit var gameUseCasesFake: GameUseCasesFake
     private lateinit var playCardUseCasesFake: PlayCardUseCasesFake
     private lateinit var captureUserPhotoFake: CaptureUserPhotoUseCasesFake
-    private lateinit var showMapUseCase: ShowMapUseCase
 
     @Before
     fun setUp() {
         gameUseCasesFake = GameUseCasesFake()
         playCardUseCasesFake = PlayCardUseCasesFake()
         captureUserPhotoFake = CaptureUserPhotoUseCasesFake()
-        viewModel = GameViewModel(gameUseCasesFake, playCardUseCasesFake, captureUserPhotoFake, showMapUseCase)
+        viewModel = GameViewModel(gameUseCasesFake, playCardUseCasesFake, captureUserPhotoFake)
     }
 
     @Test

@@ -10,11 +10,9 @@ import ar.edu.unlam.mobile.scaffolding.fakes.PlayCardUseCasesFake
 import ar.edu.unlam.mobile.scaffolding.ui.screens.game.GameState
 import ar.edu.unlam.mobile.scaffolding.ui.screens.game.GameViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -50,41 +48,38 @@ class GameViewModelTest {
     }
 
     @Test
-    fun `when playerDrawCard is called, playerCard should be updated`() = runTest {
-        val expectedCard = PlayCard(CardValue.ACE, CardType.SPADES)
-        playCardUseCasesFake.setCardToDraw(expectedCard)
+    fun `when playerDrawCard is called, playerCard should be updated`() =
+        runTest {
+            val expectedCard = PlayCard(CardValue.ACE, CardType.SPADES)
+            playCardUseCasesFake.setCardToDraw(expectedCard)
 
-        viewModel.playerDrawCard()
-        advanceUntilIdle()
+            viewModel.playerDrawCard()
+            advanceUntilIdle()
 
-        assertEquals(expectedCard, viewModel.state.value.playerCard)
-    }
-
-    @Test
-    fun `when playerThrowDices is called, dice results should be updated`() = runTest {
-        val dice = Dice.ONE
-        gameUseCasesFake.emitDicePair(dice)
-
-        viewModel.playerThrowDices()
-        advanceUntilIdle()
-
-        assertEquals(dice, viewModel.state.value.dice)
-    }
-
-
+            assertEquals(expectedCard, viewModel.state.value.playerCard)
+        }
 
     @Test
-    fun `nextRound should increment currentRound`() = runTest {
-        viewModel.startGame()
-        val initialRound = viewModel.state.value.currentRound
+    fun `when playerThrowDices is called, dice results should be updated`() =
+        runTest {
+            val dice = Dice.ONE
+            gameUseCasesFake.emitDicePair(dice)
 
-        viewModel.nextRound()
-        advanceUntilIdle()
+            viewModel.playerThrowDices()
+            advanceUntilIdle()
 
-        assertEquals(initialRound, viewModel.state.value.currentRound)
-    }
+            assertEquals(dice, viewModel.state.value.dice)
+        }
 
+    @Test
+    fun `nextRound should increment currentRound`() =
+        runTest {
+            viewModel.startGame()
+            val initialRound = viewModel.state.value.currentRound
 
+            viewModel.nextRound()
+            advanceUntilIdle()
 
-
+            assertEquals(initialRound, viewModel.state.value.currentRound)
+        }
 }

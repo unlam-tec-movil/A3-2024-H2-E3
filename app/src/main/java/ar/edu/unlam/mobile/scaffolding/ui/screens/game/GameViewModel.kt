@@ -64,7 +64,6 @@ class GameViewModel
             }
         }
 
-
         fun startPart() {
             _state.update { currentState ->
                 currentState.copy(

@@ -196,6 +196,7 @@ class GameViewModel
 
         fun checkIfIsGameOver() {
             if (_state.value.currentRound == _state.value.maxRounds) {
+                triggerShowMap()
                 if (_state.value.playerPoints > _state.value.cpuPoints
                 ) {
                     _state.update {
@@ -210,7 +211,6 @@ class GameViewModel
                         it.copy(gameOver = true, winner = "Nadie - Empate")
                     }
                 }
-                triggerShowMap()
             }
         }
 

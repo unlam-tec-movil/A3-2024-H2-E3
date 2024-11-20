@@ -2,9 +2,11 @@ package ar.edu.unlam.mobile.scaffolding.domain.di
 
 import ar.edu.unlam.mobile.scaffolding.domain.services.CaptureUserPhotoService
 import ar.edu.unlam.mobile.scaffolding.domain.services.GameService
+import ar.edu.unlam.mobile.scaffolding.domain.services.GetRivalLocationService
 import ar.edu.unlam.mobile.scaffolding.domain.services.PlayCardService
 import ar.edu.unlam.mobile.scaffolding.domain.usecases.CaptureUserPhotoUseCases
 import ar.edu.unlam.mobile.scaffolding.domain.usecases.GameUseCases
+import ar.edu.unlam.mobile.scaffolding.domain.usecases.GetRivalLocationUseCase
 import ar.edu.unlam.mobile.scaffolding.domain.usecases.PlayCardUseCases
 import dagger.Binds
 import dagger.Module
@@ -22,4 +24,7 @@ abstract class ServicesModule {
 
     @Binds
     abstract fun bindPlayCardService(playCardService: PlayCardService): PlayCardUseCases
+
+    @Binds
+    abstract fun bindGetRivalLocationService(getRivalLocationService: GetRivalLocationService): GetRivalLocationUseCase
 }

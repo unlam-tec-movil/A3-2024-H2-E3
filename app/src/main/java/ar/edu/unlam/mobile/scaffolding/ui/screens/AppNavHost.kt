@@ -21,7 +21,7 @@ fun AppNavHost() {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = HACK_MESSAGE_ROUTE,
+        startDestination = CAPTURE_USER_PHOTO_ROUTE,
     ) {
         composable(HACK_MESSAGE_ROUTE) {
             HackMessagesScreen(
@@ -50,8 +50,8 @@ fun AppNavHost() {
                         NavOptions
                             .Builder()
                             .setPopUpTo(
-                                MENU_ROUTE,
-                                inclusive = false,
+                                null,
+                                inclusive = true,
                             ).build(),
                 )
             }

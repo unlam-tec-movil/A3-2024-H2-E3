@@ -146,7 +146,7 @@ fun GameScreen(
             LaunchedEffect(Unit) {
                 delay(2000)
                 if (state.winner == "Jugador") {
-                    onGameEnd(Routes.MENU_ROUTE)
+                    onGameEnd(Routes.MAP_ROUTE)
                 } else {
                     onGameEnd(Routes.MAP_ROUTE)
                 }

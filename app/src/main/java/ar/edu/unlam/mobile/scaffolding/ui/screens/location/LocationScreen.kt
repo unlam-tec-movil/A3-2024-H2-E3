@@ -4,63 +4,58 @@ import android.Manifest
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import ar.edu.unlam.mobile.scaffolding.ui.utils.Routes
 
 @Composable
 fun LocationScreen(
     viewModel: LocationViewModel = hiltViewModel(),
     navController: NavController,
 ) {
-    val context = LocalContext.current
-    val hasPermission by viewModel.hasLocationPermission.collectAsState()
-    val showMap by viewModel.showMap.collectAsState()
-    val userImage by viewModel.userImage.collectAsState()
-    // Verificamos el permiso inicial al principio de la función
-    LaunchedEffect(Unit) {
-        viewModel.checkLocationPermission()
-    }
-
-    if (hasPermission) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    if (uiState.isLocationEnabled != null && uiState.isLocationEnabled!! && uiState.userLocation != null) {
         // Muestra la UI que requiere permiso de ubicación
         MapScreen(
             modifier = Modifier.padding(16.dp),
-            showMap = showMap,
-            // userImage = userImage.toImageBitmap(),
+            showMap = uiState.isMapVisible,
+            playerLocation = uiState.userLocation!!,
+            rivalLocation = uiState.rivalLocation.location,
+            userPhoto = uiState.userPhoto,
         )
     } else {
-        // Llama al composable para solicitar permiso
-        Text("Se volvera a pedir permiso")
         RequestLocationPermission(
-            viewModel = viewModel,
-        )
+            hasPermission = uiState.isLocationEnabled,
+        ) {
+            viewModel.checkLocationPermission()
+        }
+    }
+    if (uiState.backToGame) {
+        navController.navigate(Routes.GAME_ROUTE)
     }
 }
 
 // Solicitud de permiso y actualización del estado
 @Composable
-fun RequestLocationPermission(viewModel: LocationViewModel) {
+fun RequestLocationPermission(
+    hasPermission: Boolean?,
+    onPermissionResponse: (Boolean) -> Unit,
+) {
     val permissionLauncher =
         rememberLauncherForActivityResult(
             contract = ActivityResultContracts.RequestPermission(),
         ) { isGranted ->
-            viewModel.updateLocationPermissionStatus(isGranted)
+            onPermissionResponse(isGranted)
         }
 
-    // Obtenemos el estado de permiso actual
-    val hasPermission by viewModel.hasLocationPermission.collectAsState()
-
-    // Solicitar el permiso cuando no está concedido
     LaunchedEffect(hasPermission) {
-        if (!hasPermission) {
+        if (hasPermission != null && !hasPermission) {
             permissionLauncher.launch(Manifest.permission.ACCESS_COARSE_LOCATION)
         }
     }

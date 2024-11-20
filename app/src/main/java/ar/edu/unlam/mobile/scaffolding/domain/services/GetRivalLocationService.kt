@@ -24,9 +24,8 @@ class GetRivalLocationService
                         lastLocation = Location(lat, lon)
                     }
                 } else {
-                    if (!isWin)
-                        {
-                        }
+                    if (!isWin) {
+                    }
                 }
             } ?: run {
                 lastLocation = Location(0.0, 0.0)

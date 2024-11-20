@@ -44,7 +44,10 @@ class MapViewModel
                         Math.cos(
                             distanceInMeters /
                                 radio,
-                        ) + Math.cos(lat1) * Math.sin(distanceInMeters / radio) * Math.cos(bearingRad),
+                        ) + Math.cos(lat1) * Math.sin(distanceInMeters / radio) *
+                        Math.cos(
+                            bearingRad,
+                        ),
                 )
             val lng2 =
                 lng1 +

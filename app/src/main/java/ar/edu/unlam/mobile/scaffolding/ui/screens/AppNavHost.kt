@@ -50,10 +50,16 @@ fun AppNavHost() {
             LocationScreen(navController = navController)
         }
         composable(LOSE_GAME) {
-            EndScreen(modifier = Modifier.fillMaxSize(), text = "Perdiste, te atrapamos para siempre")
+            EndScreen(
+                modifier = Modifier.fillMaxSize(),
+                text = "Perdiste, te atrapamos para siempre",
+            )
         }
         composable(WIN_GAME) {
-            EndScreen(modifier = Modifier.fillMaxSize(), text = "Ganaste esta vez, pero la proxima te alcanzare")
+            EndScreen(
+                modifier = Modifier.fillMaxSize(),
+                text = "Ganaste esta vez, pero la proxima te alcanzare",
+            )
             LaunchedEffect(Unit) {
                 delay(7000)
                 throw Exception("Game Over")

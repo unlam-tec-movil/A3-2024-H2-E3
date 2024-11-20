@@ -37,7 +37,7 @@ fun LocationScreen(
         }
     }
     if (uiState.backToGame) {
-        navController.navigate(Routes.GAME_ROUTE)
+        navController.popBackStack(Routes.GAME_ROUTE, false)
     }
 }
 

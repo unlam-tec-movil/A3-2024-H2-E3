@@ -13,6 +13,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,7 +30,6 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import ar.edu.unlam.mobile.scaffolding.R
 import ar.edu.unlam.mobile.scaffolding.ui.components.Dice
@@ -48,7 +48,7 @@ fun GameScreen(
     var playerCardCoordinates by remember { mutableStateOf(Offset.Zero) }
     var rivalCardCoordinates by remember { mutableStateOf(Offset.Zero) }
     var deckCoordinates by remember { mutableStateOf(Offset.Zero) }
-    val state by viewModel.state.collectAsStateWithLifecycle()
+    val state by viewModel.state.collectAsState()
     val density = LocalDensity.current
     LaunchedEffect(Unit) {
         viewModel.startGame()
@@ -111,7 +111,10 @@ fun GameScreen(
         ) {
             Dice(
                 dice = state.dice,
-                modifier = Modifier.testTag("Dice").size(80.dp),
+                modifier =
+                    Modifier
+                        .testTag("Dice")
+                        .size(80.dp),
             )
             Button(
                 onClick = viewModel::playerThrowDices,
@@ -148,10 +151,23 @@ fun GameScreen(
             LaunchedEffect(Unit) {
                 delay(2000)
                 if (state.winner == "Jugador") {
-                    onGameEnd(Routes.MAP_ROUTE)
+                    onGameEnd(Routes.WIN_GAME)
                 } else {
-                    onGameEnd(Routes.MAP_ROUTE)
+                    onGameEnd(Routes.LOSE_GAME)
                 }
+            }
+        }
+        if (state.showMap) {
+            if (state.winner == "Jugador") {
+                StatusMessage(
+                    isPlayerTurn = state.isPlayerTurn,
+                    statusMesssage = "Sigue ganando para que no te atrapen",
+                )
+            }
+            LaunchedEffect(Unit) {
+                delay(2000)
+                onGameEnd(Routes.MAP_ROUTE)
+                viewModel.onShowMapEnd()
             }
         }
         Column(

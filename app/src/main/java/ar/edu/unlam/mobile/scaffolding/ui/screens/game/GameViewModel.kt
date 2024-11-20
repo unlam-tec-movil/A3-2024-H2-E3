@@ -7,7 +7,6 @@ import ar.edu.unlam.mobile.scaffolding.domain.models.PlayCard
 import ar.edu.unlam.mobile.scaffolding.domain.usecases.CaptureUserPhotoUseCases
 import ar.edu.unlam.mobile.scaffolding.domain.usecases.GameUseCases
 import ar.edu.unlam.mobile.scaffolding.domain.usecases.PlayCardUseCases
-import ar.edu.unlam.mobile.scaffolding.domain.usecases.ShowMapUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -40,6 +39,7 @@ data class GameState(
     val rivalDiceResult: Int = 0,
     val showStatusMessage: Boolean = false,
     val statusMessage: String = "",
+    val showMap: Boolean = false,
 )
 
 @HiltViewModel
@@ -49,7 +49,6 @@ class GameViewModel
         private val gameUseCases: GameUseCases,
         private val playCardUseCases: PlayCardUseCases,
         private val getUserPhotoUseCases: CaptureUserPhotoUseCases,
-        private val showMapUseCase: ShowMapUseCase,
     ) : ViewModel() {
         private val _state = MutableStateFlow(GameState())
         val state = _state.asStateFlow()
@@ -219,10 +218,16 @@ class GameViewModel
                 determineFinalWinner()
             } else {
                 _state.update { currentState ->
-                    currentState.copy(currentPart = currentState.currentPart + 1)
+                    currentState.copy(showMap = true)
                 }
-                startPart()
             }
+        }
+
+        fun onShowMapEnd() {
+            _state.update { currentState ->
+                currentState.copy(showMap = false, currentPart = currentState.currentPart + 1)
+            }
+            startPart()
         }
 
         fun determineFinalWinner() {

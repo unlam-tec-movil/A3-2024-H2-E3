@@ -27,7 +27,11 @@ data class GameState(
     val playerPoints: Int = 0,
     val cpuPoints: Int = 0,
     val currentRound: Int = 1,
-    val maxRounds: Int = 10,
+    val maxRounds: Int = 3,
+    val currentPart: Int = 1,
+    val maxParts: Int = 3,
+    val playerOverallScore: Int = 0,
+    val cpuOverallScore: Int = 0,
     val thirdDiceEnabled: Boolean = false,
     val gameOver: Boolean = false,
     val winner: String? = null,
@@ -50,15 +54,25 @@ class GameViewModel
         private val _state = MutableStateFlow(GameState())
         val state = _state.asStateFlow()
 
-        fun startGame(maxRounds: Int) {
+        fun startGame() {
             viewModelScope.launch {
-                _state.value = GameState(maxRounds = maxRounds)
+                _state.value = GameState()
                 getUserPhotoUseCases.getPhoto().let { userImage ->
                     _state.update { currentState ->
                         currentState.copy(userImage = userImage?.photo)
                     }
                 }
                 playerDrawCard()
+            }
+        }
+
+        fun startPart() {
+            _state.update { currentState ->
+                currentState.copy(
+                    playerPoints = 0,
+                    cpuPoints = 0,
+                    currentRound = 1,
+                )
             }
         }
 
@@ -174,13 +188,55 @@ class GameViewModel
         }
 
         fun nextRound() {
-            if (_state.value.currentRound == 10) {
+            if (_state.value.currentRound == _state.value.maxRounds) {
                 _state.update { currentState ->
-                    currentState.copy(currentRound = currentState.currentRound)
+                    currentState.copy(currentRound = 1)
                 }
+                nextPart()
             } else {
                 _state.update { currentState ->
                     currentState.copy(currentRound = currentState.currentRound + 1)
+                }
+            }
+        }
+
+        fun nextPart() {
+            // Determine the winner of the part and update the overall score
+            if (_state.value.playerPoints > _state.value.cpuPoints) {
+                _state.update { currentState ->
+                    currentState.copy(playerOverallScore = currentState.playerOverallScore + 1)
+                }
+            } else if (_state.value.cpuPoints > _state.value.playerPoints) {
+                _state.update { currentState ->
+                    currentState.copy(cpuOverallScore = currentState.cpuOverallScore + 1)
+                }
+            }
+
+            if (_state.value.currentPart == _state.value.maxParts) {
+                _state.update { currentState ->
+                    currentState.copy(gameOver = true)
+                }
+                determineFinalWinner()
+            } else {
+                _state.update { currentState ->
+                    currentState.copy(currentPart = currentState.currentPart + 1)
+                }
+                startPart()
+            }
+        }
+
+        fun determineFinalWinner() {
+            if (_state.value.playerOverallScore > _state.value.cpuOverallScore) {
+                _state.update {
+                    it.copy(winner = "Jugador")
+                }
+            } else if (_state.value.cpuOverallScore > _state.value.playerOverallScore) {
+                _state.update {
+                    it.copy(winner = "CPU")
+                }
+            } else {
+                _state.update {
+                    it.copy(winner = "Nadie - Empate")
                 }
             }
         }
@@ -195,30 +251,17 @@ class GameViewModel
         }
 
         fun checkIfIsGameOver() {
-            if (_state.value.currentRound == _state.value.maxRounds) {
-                triggerShowMap()
-                if (_state.value.playerPoints > _state.value.cpuPoints
-                ) {
-                    _state.update {
-                        it.copy(gameOver = true, winner = "Jugador")
-                    }
-                } else if (_state.value.cpuPoints > _state.value.playerPoints) {
-                    _state.update {
-                        it.copy(gameOver = true, winner = "CPU")
-                    }
-                } else {
-                    _state.update {
-                        it.copy(gameOver = true, winner = "Nadie - Empate")
-                    }
+            if (_state.value.currentRound == _state.value.maxRounds &&
+                _state.value.currentPart == _state.value.maxParts
+            ) {
+                _state.update {
+                    it.copy(gameOver = true)
                 }
+                determineFinalWinner()
             }
         }
 
         private fun enableThrowButton(value: Boolean) {
             _state.update { it.copy(throwButtonEnabled = value) }
-        }
-
-        fun triggerShowMap() {
-            showMapUseCase(true)
         }
     }

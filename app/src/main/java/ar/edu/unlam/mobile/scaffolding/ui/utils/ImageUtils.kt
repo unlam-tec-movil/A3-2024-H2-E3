@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.core.graphics.scale
 import java.io.ByteArrayOutputStream
 
 fun Bitmap.toByteArray(): ByteArray =
@@ -13,3 +14,5 @@ fun Bitmap.toByteArray(): ByteArray =
         }.toByteArray()
 
 fun ByteArray.toImageBitmap(): ImageBitmap = BitmapFactory.decodeByteArray(this, 0, size).asImageBitmap()
+
+fun ByteArray.toScaledBitmap(): Bitmap = BitmapFactory.decodeByteArray(this, 0, size).scale(200, 200)

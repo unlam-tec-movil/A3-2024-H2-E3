@@ -16,7 +16,7 @@ class StatusMessageKtTest {
     @Test
     fun statusMessage_displaysCorrectTextWhenIsUserTurn() {
         val isPlayerTurn = true
-        val playerCard = PlayCard(CardValue.TEN)
+        val playerCard = PlayCard(CardValue.SIX)
         val statusMessage = "Tus dados deberan sumar ${playerCard.value.numericValue}"
 
         composeTestRule.setContent {
@@ -33,7 +33,7 @@ class StatusMessageKtTest {
     @Test
     fun statusMessage_displaysCorrectTextWhenIsCpuTurn() {
         val isPlayerTurn = false
-        val playerCard = PlayCard(CardValue.TEN)
+        val playerCard = PlayCard(CardValue.SIX)
         val statusMessage = "Tus dados deberan sumar ${playerCard.value.numericValue}"
 
         composeTestRule.setContent {
@@ -50,7 +50,7 @@ class StatusMessageKtTest {
     @Test
     fun statusMessage_displaysCorrectValueWhenCardWasDrawn() {
         val isPlayerTurn = false
-        val playerCard = PlayCard(CardValue.TEN)
+        val playerCard = PlayCard(CardValue.SIX)
         val statusMessage = "Tus dados deberan sumar ${playerCard.value.numericValue}"
 
         composeTestRule.setContent {

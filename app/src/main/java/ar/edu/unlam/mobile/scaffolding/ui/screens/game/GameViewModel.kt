@@ -39,6 +39,7 @@ data class GameState(
     val rivalDiceResult: Int = 0,
     val showStatusMessage: Boolean = false,
     val statusMessage: String = "",
+    val showMap: Boolean = false,
 )
 
 @HiltViewModel
@@ -217,10 +218,16 @@ class GameViewModel
                 determineFinalWinner()
             } else {
                 _state.update { currentState ->
-                    currentState.copy(currentPart = currentState.currentPart + 1)
+                    currentState.copy(showMap = true)
                 }
-                startPart()
             }
+        }
+
+        fun onShowMapEnd() {
+            _state.update { currentState ->
+                currentState.copy(showMap = false, currentPart = currentState.currentPart + 1)
+            }
+            startPart()
         }
 
         fun determineFinalWinner() {

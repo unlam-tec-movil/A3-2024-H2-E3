@@ -110,5 +110,6 @@ dependencies {
     implementation(libs.androidx.constraintlayout.compose)
 
     // Maps
-    implementation(libs.osmdroid.android)
+    implementation(libs.google.maps.compose)
+    implementation(libs.google.service.maps)
 }

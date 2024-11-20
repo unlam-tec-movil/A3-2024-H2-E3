@@ -28,6 +28,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import ar.edu.unlam.mobile.scaffolding.R
 import ar.edu.unlam.mobile.scaffolding.ui.components.Dice
 import ar.edu.unlam.mobile.scaffolding.ui.components.StatusMessage
@@ -47,9 +48,7 @@ fun GameScreen(
     var deckCoordinates by remember { mutableStateOf(Offset.Zero) }
     val state by viewModel.state.collectAsStateWithLifecycle()
     val density = LocalDensity.current
-    LaunchedEffect(Unit) {
-        viewModel.startGame(maxRounds = 10)
-    }
+
     Box(modifier = Modifier.fillMaxSize()) {
         GameBoard(
             modifier = Modifier.matchParentSize(),

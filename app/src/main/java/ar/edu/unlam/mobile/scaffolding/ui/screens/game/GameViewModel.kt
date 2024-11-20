@@ -7,6 +7,7 @@ import ar.edu.unlam.mobile.scaffolding.domain.models.PlayCard
 import ar.edu.unlam.mobile.scaffolding.domain.usecases.CaptureUserPhotoUseCases
 import ar.edu.unlam.mobile.scaffolding.domain.usecases.GameUseCases
 import ar.edu.unlam.mobile.scaffolding.domain.usecases.PlayCardUseCases
+import ar.edu.unlam.mobile.scaffolding.domain.usecases.ShowMapUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -44,6 +45,7 @@ class GameViewModel
         private val gameUseCases: GameUseCases,
         private val playCardUseCases: PlayCardUseCases,
         private val getUserPhotoUseCases: CaptureUserPhotoUseCases,
+        private val showMapUseCase: ShowMapUseCase,
     ) : ViewModel() {
         private val _state = MutableStateFlow(GameState())
         val state = _state.asStateFlow()
@@ -208,10 +210,15 @@ class GameViewModel
                         it.copy(gameOver = true, winner = "Nadie - Empate")
                     }
                 }
+                triggerShowMap()
             }
         }
 
         private fun enableThrowButton(value: Boolean) {
             _state.update { it.copy(throwButtonEnabled = value) }
+        }
+
+        fun triggerShowMap() {
+            showMapUseCase(true)
         }
     }

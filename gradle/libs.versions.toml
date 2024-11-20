@@ -26,6 +26,8 @@ coroutine = "1.6.4"
 coroutineFlow = "1.6.4"
 osmdroidAndroid = "6.1.20"
 zxingAndroidEmbedded = "4.3.0"
+mapsVersion = "2.13.0"
+mapsServiceVersion = "19.0.0"
 
 [libraries]
 androidx-constraintlayout-compose = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "constraintlayoutCompose" }
@@ -61,6 +63,8 @@ coroutineFlow = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", v
 google-play-service-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "location"}
 osmdroid-android = { module = "org.osmdroid:osmdroid-android", version.ref = "osmdroidAndroid" }
 zxing-android-embedded = { module = "com.journeyapps:zxing-android-embedded", version.ref = "zxingAndroidEmbedded" }
+google-maps-compose = { group = "com.google.maps.android", name = "maps-compose", version.ref = "mapsVersion"}
+google-service-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "mapsServiceVersion"}
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

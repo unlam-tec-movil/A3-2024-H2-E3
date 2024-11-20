@@ -24,8 +24,6 @@ fun LocationScreen(
     val context = LocalContext.current
     val hasPermission by viewModel.hasLocationPermission.collectAsState()
     val showMap by viewModel.showMap.collectAsState()
-    val rivalLocation by viewModel.rivalLocation.collectAsState()
-    val userLocation by viewModel.userLocation.collectAsState()
     val userImage by viewModel.userImage.collectAsState()
     // Verificamos el permiso inicial al principio de la función
     LaunchedEffect(Unit) {
@@ -37,8 +35,6 @@ fun LocationScreen(
         MapScreen(
             modifier = Modifier.padding(16.dp),
             showMap = showMap,
-            rivalLocation = rivalLocation,
-            userLocation = userLocation,
             userImage = userImage.toImageBitmap(),
         )
     } else {

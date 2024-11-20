@@ -12,15 +12,14 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import ar.edu.unlam.mobile.scaffolding.R
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.Circle
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.Marker
@@ -31,17 +30,20 @@ import com.google.maps.android.compose.rememberMarkerState
 fun MapScreen(
     modifier: Modifier = Modifier,
     showMap: Boolean,
-    userImage: ImageBitmap,
+    // userImage: ImageBitmap,
 ) {
-    val mapViewModel: MapViewModel = viewModel()
+    val mapViewModel: MapViewModel = hiltViewModel()
     val currentContext = LocalContext.current
 
     // Player information
     val playerLatLng by mapViewModel.playerLatLng.collectAsState()
     val playerMarkerState = playerLatLng?.let { rememberMarkerState(position = it) }
-    val userBitmap = userImage.asAndroidBitmap()
-    val circularBitmap = getCircularBitmap(userBitmap, diameter = 200)
-    val bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(circularBitmap)
+    val playerDrawable = ContextCompat.getDrawable(currentContext, R.drawable.player_hanged)
+    val playerIcon =
+        playerDrawable
+            ?.let {
+                drawableToBitmap(it, it.intrinsicWidth, it.intrinsicHeight)
+            }?.let { BitmapDescriptorFactory.fromBitmap(it) }
 
     // Attacker information
     val distance = 1500.0
@@ -58,7 +60,12 @@ fun MapScreen(
             }?.let { BitmapDescriptorFactory.fromBitmap(it) }
     val cameraPositionState =
         rememberCameraPositionState {
-            position = playerLatLng?.let { CameraPosition.fromLatLngZoom(it, 13f) }!!
+            position =
+                if (playerLatLng != null) {
+                    CameraPosition.fromLatLngZoom(playerLatLng!!, 13f)
+                } else {
+                    CameraPosition.fromLatLngZoom(LatLng(0.0, 0.0), 1f)
+                }
         }
     if (showMap) {
         GoogleMap(
@@ -70,7 +77,7 @@ fun MapScreen(
                     state = playerMarkerState,
                     title = "Victima (Tú)",
                     snippet = "Vamos a atraparte",
-                    icon = bitmapDescriptor,
+                    icon = playerIcon,
                     onClick = { false },
                 )
                 if (attackerMarkerState != null && attackIcon != null) {

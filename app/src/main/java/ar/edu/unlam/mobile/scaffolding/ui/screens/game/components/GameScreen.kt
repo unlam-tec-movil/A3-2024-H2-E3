@@ -48,7 +48,9 @@ fun GameScreen(
     var deckCoordinates by remember { mutableStateOf(Offset.Zero) }
     val state by viewModel.state.collectAsStateWithLifecycle()
     val density = LocalDensity.current
-
+    LaunchedEffect(Unit) {
+        viewModel.startGame(maxRounds = 2)
+    }
     Box(modifier = Modifier.fillMaxSize()) {
         GameBoard(
             modifier = Modifier.matchParentSize(),

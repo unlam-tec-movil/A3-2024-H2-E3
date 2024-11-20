@@ -8,12 +8,7 @@ import ar.edu.unlam.mobile.scaffolding.domain.models.Location
 import ar.edu.unlam.mobile.scaffolding.domain.models.RivalLocation
 import ar.edu.unlam.mobile.scaffolding.domain.repository.LocationRepository
 import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
 import kotlin.coroutines.resume
@@ -61,12 +56,3 @@ class LocationRepositoryImplementation
             this.rivalLocationStorage = location
         }
     }
-
-@Module
-@InstallIn(SingletonComponent::class)
-object FusedLocationProviderModule {
-    @Provides
-    fun provideFusedLocationProviderClient(
-        @ApplicationContext context: Context,
-    ): FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
-}

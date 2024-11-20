@@ -14,7 +14,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import ar.edu.unlam.mobile.scaffolding.ui.utils.toImageBitmap
 
 @Composable
 fun LocationScreen(
@@ -35,7 +34,7 @@ fun LocationScreen(
         MapScreen(
             modifier = Modifier.padding(16.dp),
             showMap = showMap,
-            userImage = userImage.toImageBitmap(),
+            // userImage = userImage.toImageBitmap(),
         )
     } else {
         // Llama al composable para solicitar permiso

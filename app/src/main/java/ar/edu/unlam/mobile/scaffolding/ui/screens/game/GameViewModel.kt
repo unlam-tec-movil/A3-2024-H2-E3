@@ -49,7 +49,7 @@ class GameViewModel
         private val playCardUseCases: PlayCardUseCases,
         private val getUserPhotoUseCases: CaptureUserPhotoUseCases,
     ) : ViewModel() {
-        val _state = MutableStateFlow(GameState())
+        private val _state = MutableStateFlow(GameState())
         val state = _state.asStateFlow()
 
         fun startGame() {

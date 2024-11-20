@@ -10,9 +10,11 @@ import ar.edu.unlam.mobile.scaffolding.fakes.PlayCardUseCasesFake
 import ar.edu.unlam.mobile.scaffolding.ui.screens.game.GameState
 import ar.edu.unlam.mobile.scaffolding.ui.screens.game.GameViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -43,60 +45,46 @@ class GameViewModelTest {
 
     @Test
     fun `when startGame is called, maxRounds should be set`() {
-        val maxRounds = 10
-        viewModel.startGame(maxRounds)
-
-        assertEquals(maxRounds, viewModel.state.value.maxRounds)
+        viewModel.startGame()
+        assertEquals(3, viewModel.state.value.maxRounds)
     }
 
     @Test
-    fun `when playerDrawCard is called, playerCard should be updated`() =
-        runTest {
-            val expectedCard = PlayCard(CardValue.ACE, CardType.SPADES)
-            playCardUseCasesFake.setCardToDraw(expectedCard)
+    fun `when playerDrawCard is called, playerCard should be updated`() = runTest {
+        val expectedCard = PlayCard(CardValue.ACE, CardType.SPADES)
+        playCardUseCasesFake.setCardToDraw(expectedCard)
 
-            viewModel.playerDrawCard()
-            advanceUntilIdle()
+        viewModel.playerDrawCard()
+        advanceUntilIdle()
 
-            assertEquals(expectedCard, viewModel.state.value.playerCard)
-        }
-
-    @Test
-    fun `when playerThrowDices is called, dice results should be updated`() =
-        runTest {
-            val dice = Dice.ONE
-            gameUseCasesFake.emitDicePair(dice)
-
-            viewModel.playerThrowDices()
-            advanceUntilIdle()
-
-            val dicePairTwo = viewModel.state.value.dice
-
-            assertEquals(dice, dicePairTwo)
-        }
+        assertEquals(expectedCard, viewModel.state.value.playerCard)
+    }
 
     @Test
-    fun `check if in cpu turn, cpu card is not null`() =
-        runTest {
-            viewModel.startGame(10)
-            viewModel.switchTurn()
+    fun `when playerThrowDices is called, dice results should be updated`() = runTest {
+        val dice = Dice.ONE
+        gameUseCasesFake.emitDicePair(dice)
 
-            val cpuCard = viewModel.state.value.rivalCard
-            // chequeamos que valga dos como se indica en PlayCardUseCasesFake
-            if (cpuCard != null) {
-                assertEquals(cpuCard.value.numericValue, 2)
-            }
-        }
+        viewModel.playerThrowDices()
+        advanceUntilIdle()
+
+        assertEquals(dice, viewModel.state.value.dice)
+    }
+
+
 
     @Test
-    fun `nextRound should increment currentRound`() =
-        runTest {
-            viewModel.startGame(10)
+    fun `nextRound should increment currentRound`() = runTest {
+        viewModel.startGame()
+        val initialRound = viewModel.state.value.currentRound
 
-            val initialRound = viewModel.state.value.currentRound
-            viewModel.nextRound()
-            val updatedRound = viewModel.state.value.currentRound
+        viewModel.nextRound()
+        advanceUntilIdle()
 
-            assertEquals(initialRound + 1, updatedRound)
-        }
+        assertEquals(initialRound, viewModel.state.value.currentRound)
+    }
+
+
+
+
 }

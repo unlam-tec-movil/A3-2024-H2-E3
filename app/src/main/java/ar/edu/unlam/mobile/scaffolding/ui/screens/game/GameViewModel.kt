@@ -49,7 +49,7 @@ class GameViewModel
         private val playCardUseCases: PlayCardUseCases,
         private val getUserPhotoUseCases: CaptureUserPhotoUseCases,
     ) : ViewModel() {
-        private val _state = MutableStateFlow(GameState())
+        val _state = MutableStateFlow(GameState())
         val state = _state.asStateFlow()
 
         fun startGame() {
@@ -64,14 +64,6 @@ class GameViewModel
             }
         }
 
-        fun startRound() {
-            _state.update { currentState ->
-                currentState.copy(
-                    diceThrowResult = 0,
-                    isDrawingCard = false,
-                )
-            }
-        }
 
         fun startPart() {
             _state.update { currentState ->

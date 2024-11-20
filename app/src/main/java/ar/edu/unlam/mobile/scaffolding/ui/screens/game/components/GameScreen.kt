@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -19,6 +20,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
@@ -48,7 +50,7 @@ fun GameScreen(
     val state by viewModel.state.collectAsStateWithLifecycle()
     val density = LocalDensity.current
     LaunchedEffect(Unit) {
-        viewModel.startGame(maxRounds = 10)
+        viewModel.startGame()
     }
     Box(modifier = Modifier.fillMaxSize()) {
         GameBoard(
@@ -150,6 +152,28 @@ fun GameScreen(
                     onGameEnd(Routes.MAP_ROUTE)
                 }
             }
+        }
+        Column(
+            modifier =
+                Modifier
+                    .align(Alignment.TopCenter)
+                    .padding(16.dp),
+        ) {
+            Text(
+                text = "Parte: ${state.currentPart} / ${state.maxParts}",
+                color = Color.White,
+                style = MaterialTheme.typography.bodyMedium,
+            )
+            Text(
+                text = "Jugador: ${state.playerOverallScore}",
+                color = Color.White,
+                style = MaterialTheme.typography.bodyMedium,
+            )
+            Text(
+                text = "Crimpy: ${state.cpuOverallScore}",
+                color = Color.White,
+                style = MaterialTheme.typography.bodyMedium,
+            )
         }
     }
 }

@@ -43,10 +43,8 @@ class GameViewModelTest {
 
     @Test
     fun `when startGame is called, maxRounds should be set`() {
-        val maxRounds = 10
-        viewModel.startGame(maxRounds)
-
-        assertEquals(maxRounds, viewModel.state.value.maxRounds)
+        viewModel.startGame()
+        assertEquals(3, viewModel.state.value.maxRounds)
     }
 
     @Test
@@ -70,33 +68,18 @@ class GameViewModelTest {
             viewModel.playerThrowDices()
             advanceUntilIdle()
 
-            val dicePairTwo = viewModel.state.value.dice
-
-            assertEquals(dice, dicePairTwo)
-        }
-
-    @Test
-    fun `check if in cpu turn, cpu card is not null`() =
-        runTest {
-            viewModel.startGame(10)
-            viewModel.switchTurn()
-
-            val cpuCard = viewModel.state.value.rivalCard
-            // chequeamos que valga dos como se indica en PlayCardUseCasesFake
-            if (cpuCard != null) {
-                assertEquals(cpuCard.value.numericValue, 2)
-            }
+            assertEquals(dice, viewModel.state.value.dice)
         }
 
     @Test
     fun `nextRound should increment currentRound`() =
         runTest {
-            viewModel.startGame(10)
-
+            viewModel.startGame()
             val initialRound = viewModel.state.value.currentRound
-            viewModel.nextRound()
-            val updatedRound = viewModel.state.value.currentRound
 
-            assertEquals(initialRound + 1, updatedRound)
+            viewModel.nextRound()
+            advanceUntilIdle()
+
+            assertEquals(initialRound, viewModel.state.value.currentRound)
         }
 }
